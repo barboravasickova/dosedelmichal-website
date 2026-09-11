@@ -1,0 +1,21 @@
+---
+interface Props {
+	images: string[];
+	heading: string;
+}
+
+const { images, heading } = Astro.props;
+---
+
+<section class="project-detail__gallery" aria-labelledby="project-gallery-heading">
+	<h2 id="project-gallery-heading" class="project-detail__gallery-heading">{heading}</h2>
+	<ul class="project-gallery">
+		{
+			images.map((src) => (
+				<li class="project-gallery__item">
+					<img src={src} alt="" loading="lazy" width="1140" height="713" data-photo-palette-source />
+				</li>
+			))
+		}
+	</ul>
+</section>

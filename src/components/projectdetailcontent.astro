@@ -1,0 +1,60 @@
+---
+import ProjectGallery from './ProjectGallery.astro';
+import NextProject from './NextProject.astro';
+import type { Locale } from '../lib/i18n';
+import {
+	getNextCommissionProject,
+	projectGalleryHeading,
+	type CommissionProject,
+} from '../lib/projects';
+
+interface Props {
+	locale: Locale;
+	project: CommissionProject;
+}
+
+const { locale, project } = Astro.props;
+const nextProject = getNextCommissionProject(locale, project.slug);
+---
+
+<article class="project-detail__article">
+	<header class="project-detail__hero">
+		<div class="project-detail__hero-media">
+			<img
+				src={project.heroImage}
+				alt=""
+				width="1920"
+				height="1200"
+				fetchpriority="high"
+				data-photo-palette-source
+			/>
+		</div>
+		<div class="project-detail__hero-overlay" aria-hidden="true"></div>
+		<div class="layout-rail project-detail__hero-caption">
+			<h1 class="project-detail__title">{project.title}</h1>
+			<p class="project-detail__meta">{project.meta}</p>
+		</div>
+	</header>
+
+	<div class="layout-rail project-detail__body">
+		<h2 class="project-detail__subtitle">{project.subtitle}</h2>
+		<div class="project-detail__prose">
+			{project.body.map((paragraph) => (
+				<p>{paragraph}</p>
+			))}
+		</div>
+
+		<ProjectGallery images={project.gallery} heading={projectGalleryHeading(locale)} />
+	</div>
+
+	{
+		nextProject && (
+			<section
+				class="layout-rail project-detail__next"
+				aria-labelledby="next-project-heading"
+			>
+				<NextProject locale={locale} project={nextProject} />
+			</section>
+		)
+	}
+</article>

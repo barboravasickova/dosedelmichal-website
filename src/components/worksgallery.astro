@@ -1,0 +1,118 @@
+---
+import type { Locale } from '../lib/i18n';
+import type { WorksRow } from '../lib/works';
+
+interface Props {
+	rows: WorksRow[];
+	locale: Locale;
+}
+
+const { rows, locale } = Astro.props;
+const closeLabel = locale === 'cs' ? 'Zavřít náhled' : 'Close preview';
+const openLabel = (caption: string) =>
+	locale === 'cs' ? `Zobrazit fotku: ${caption}` : `View photo: ${caption}`;
+---
+
+<div class="works-gallery" data-works-lightbox-root>
+	{
+		rows.map((row) => (
+			<div
+				class:list={[
+					'works-gallery__row',
+					row.photos.length === 2 && 'works-gallery__row--duo',
+					row.photos.length === 3 && 'works-gallery__row--trio',
+				]}
+			>
+				{row.photos.map((photo) => {
+					const [ratioW, ratioH] = photo.ratio;
+					return (
+						<figure
+							class="works-gallery__item"
+							style={`--ratio-w: ${ratioW}; --ratio-h: ${ratioH}; --photo-ratio: ${ratioW} / ${ratioH}`}
+						>
+							<div class="works-gallery__media" aria-hidden={!photo.image ? 'true' : undefined}>
+								{
+									photo.image && (
+										<button
+											type="button"
+											class="works-gallery__open"
+											data-works-lightbox-open
+											data-image={photo.image}
+											data-title={photo.caption}
+											aria-label={openLabel(photo.caption)}
+											aria-haspopup="dialog"
+										>
+											<img
+												src={photo.image}
+												alt=""
+												loading="lazy"
+												width={ratioW * 400}
+												height={ratioH * 400}
+												data-photo-palette-source
+											/>
+										</button>
+									)
+								}
+							</div>
+							<figcaption class="works-gallery__caption">{photo.caption}</figcaption>
+						</figure>
+					);
+				})}
+			</div>
+		))
+	}
+
+	<dialog class="shop-lightbox" data-works-lightbox aria-label={closeLabel}>
+		<button type="button" class="shop-lightbox__close" data-works-lightbox-close>
+			{locale === 'cs' ? 'Zavřít' : 'Close'}
+		</button>
+		<figure class="shop-lightbox__figure">
+			<img class="shop-lightbox__image" data-works-lightbox-image alt="" />
+			<figcaption class="shop-lightbox__caption" data-works-lightbox-caption hidden />
+		</figure>
+	</dialog>
+</div>
+
+<script>
+	function initWorksLightbox(root: HTMLElement) {
+		const dialog = root.querySelector<HTMLDialogElement>('[data-works-lightbox]');
+		const imageEl = root.querySelector<HTMLImageElement>('[data-works-lightbox-image]');
+		const captionEl = root.querySelector<HTMLElement>('[data-works-lightbox-caption]');
+		if (!dialog || !imageEl || !captionEl) return;
+
+		const open = (src: string, title: string) => {
+			imageEl.src = src;
+			imageEl.hidden = false;
+			if (title) {
+				captionEl.textContent = title;
+				captionEl.hidden = false;
+				imageEl.alt = title;
+			} else {
+				captionEl.hidden = true;
+				imageEl.alt = '';
+			}
+			dialog.showModal();
+		};
+
+		root.querySelectorAll<HTMLButtonElement>('[data-works-lightbox-open]').forEach((btn) => {
+			btn.addEventListener('click', () => {
+				const src = btn.dataset.image ?? '';
+				if (!src) return;
+				open(src, btn.dataset.title ?? '');
+			});
+		});
+
+		root.querySelectorAll<HTMLButtonElement>('[data-works-lightbox-close]').forEach((btn) => {
+			btn.addEventListener('click', () => dialog.close());
+		});
+
+		dialog.addEventListener('click', (event) => {
+			const target = event.target;
+			if (!(target instanceof Element)) return;
+			if (target.closest('.shop-lightbox__image')) return;
+			dialog.close();
+		});
+	}
+
+	document.querySelectorAll<HTMLElement>('[data-works-lightbox-root]').forEach(initWorksLightbox);
+</script>

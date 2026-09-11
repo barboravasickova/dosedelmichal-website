@@ -1,0 +1,46 @@
+---
+import BackToTop from '../components/BackToTop.astro';
+import PhotoColorSwatches from '../components/PhotoColorSwatches.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+import type { Locale } from '../lib/i18n';
+import '../styles/global.css';
+
+interface Props {
+	locale: Locale;
+	title: string;
+	description: string;
+	currentPath: string;
+}
+
+const { locale, title, description, currentPath } = Astro.props;
+---
+
+<!doctype html>
+<html lang={locale}>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta name="theme-color" content="#F9F8F2" />
+		<meta name="description" content={description} />
+		<title>{title}</title>
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap"
+			rel="stylesheet"
+		/>
+	</head>
+	<body>
+		<div class="page-shell theme-light">
+			<SiteHeader locale={locale} currentPath={currentPath} theme="light" width="contained" />
+			<main class="project-detail">
+				<slot />
+			</main>
+			<SiteFooter locale={locale} variant="full" />
+		</div>
+		<PhotoColorSwatches theme="light" />
+		<BackToTop locale={locale} theme="light" />
+	</body>
+</html>

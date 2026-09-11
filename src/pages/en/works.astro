@@ -1,0 +1,19 @@
+---
+import WorksGallery from '../../components/WorksGallery.astro';
+import PageLayout from '../../layouts/PageLayout.astro';
+import { pageTitle } from '../../lib/i18n';
+import { worksGalleryRows } from '../../lib/works';
+
+const locale = 'en';
+const currentPath = '/en/works';
+const rows = worksGalleryRows(locale);
+---
+
+<PageLayout
+	locale={locale}
+	currentPath={currentPath}
+	title={pageTitle(locale, 'Works')}
+	description="Works — Michal Doseděl."
+>
+	<WorksGallery rows={rows} locale={locale} />
+</PageLayout>

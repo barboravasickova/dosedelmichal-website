@@ -1,0 +1,36 @@
+---
+import { aboutContent, aboutPortraitSrc } from '../lib/about';
+import type { Locale } from '../lib/i18n';
+
+interface Props {
+	locale: Locale;
+}
+
+const { locale } = Astro.props;
+const content = aboutContent(locale);
+---
+
+<div class="about-page">
+	<div class="about-page__layout">
+		<div class="about-page__copy">
+			<h2 class="about-page__title"><strong>{content.title}</strong></h2>
+			<div class="about-page__prose">
+				{content.paragraphs.map((paragraph) => (
+					<p>{paragraph}</p>
+				))}
+			</div>
+		</div>
+		<figure class="about-page__figure">
+			<img
+				class="about-page__photo"
+				src={aboutPortraitSrc}
+				alt={content.portraitAlt}
+				width="640"
+				height="640"
+				loading="lazy"
+				decoding="async"
+				data-photo-palette-source
+			/>
+		</figure>
+	</div>
+</div>

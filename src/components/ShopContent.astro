@@ -1,0 +1,115 @@
+---
+import { contactEmail } from '../lib/site';
+import { shopOrderNotice } from '../lib/shop';
+import type { ProductCard } from '../lib/placeholders';
+import type { Locale } from '../lib/i18n';
+
+interface Props {
+	products: ProductCard[];
+	locale: Locale;
+}
+
+const { products, locale } = Astro.props;
+const notice = shopOrderNotice(locale);
+const closeLabel = locale === 'cs' ? 'Zavřít náhled' : 'Close preview';
+const openLabel = (title: string) =>
+	locale === 'cs' ? `Zobrazit fotku: ${title}` : `View photo: ${title}`;
+---
+
+<section class="shop-page" data-shop-lightbox-root>
+	<p class="shop-page__notice">
+		{notice}{' '}
+		<a href={`mailto:${contactEmail}`}>{contactEmail}</a>
+	</p>
+
+	<ul class="shop-products">
+		{
+			products.map((product) => (
+				<li class="shop-products__item">
+					<button
+						type="button"
+						class="shop-products__open"
+						data-shop-lightbox-open
+						data-image={product.image ?? ''}
+						data-title={product.title}
+						aria-label={openLabel(product.title)}
+						aria-haspopup="dialog"
+					>
+						{product.image ? (
+							<img
+								class="shop-products__photo"
+								src={product.image}
+								alt=""
+								width={640}
+								height={800}
+								loading="lazy"
+								data-photo-palette-source
+							/>
+						) : (
+							<span class="shop-products__media" aria-hidden="true" />
+						)}
+					</button>
+					<h2 class="shop-products__title">{product.title}</h2>
+					<p class="shop-products__price">{product.price}</p>
+				</li>
+			))
+		}
+	</ul>
+
+	<dialog class="shop-lightbox" data-shop-lightbox aria-label={closeLabel}>
+		<button type="button" class="shop-lightbox__close" data-shop-lightbox-close>
+			{locale === 'cs' ? 'Zavřít' : 'Close'}
+		</button>
+		<figure class="shop-lightbox__figure">
+			<img class="shop-lightbox__image" data-shop-lightbox-image alt="" />
+			<figcaption class="shop-lightbox__caption" data-shop-lightbox-caption hidden />
+		</figure>
+	</dialog>
+</section>
+
+<script>
+	function initShopLightbox(root: HTMLElement) {
+		const dialog = root.querySelector<HTMLDialogElement>('[data-shop-lightbox]');
+		const imageEl = root.querySelector<HTMLImageElement>('[data-shop-lightbox-image]');
+		const captionEl = root.querySelector<HTMLElement>('[data-shop-lightbox-caption]');
+		if (!dialog || !imageEl || !captionEl) return;
+
+		const open = (src: string, title: string) => {
+			if (src) {
+				imageEl.src = src;
+				imageEl.hidden = false;
+			} else {
+				imageEl.removeAttribute('src');
+				imageEl.hidden = true;
+			}
+			if (title) {
+				captionEl.textContent = title;
+				captionEl.hidden = false;
+				imageEl.alt = title;
+			} else {
+				captionEl.hidden = true;
+				imageEl.alt = '';
+			}
+			dialog.showModal();
+		};
+
+		root.querySelectorAll<HTMLButtonElement>('[data-shop-lightbox-open]').forEach((btn) => {
+			btn.addEventListener('click', () => {
+				open(btn.dataset.image ?? '', btn.dataset.title ?? '');
+			});
+		});
+
+		root.querySelectorAll<HTMLButtonElement>('[data-shop-lightbox-close]').forEach((btn) => {
+			btn.addEventListener('click', () => dialog.close());
+		});
+
+		dialog.addEventListener('click', (event) => {
+			const target = event.target;
+			if (!(target instanceof Element)) return;
+			if (target.closest('.shop-lightbox__image')) return;
+			dialog.close();
+		});
+	}
+
+	document.querySelectorAll<HTMLElement>('[data-shop-lightbox-root]').forEach(initShopLightbox);
+</script>

@@ -1,0 +1,26 @@
+---
+import ProjectDetailContent from '../../../components/ProjectDetailContent.astro';
+import ProjectDetailLayout from '../../../layouts/ProjectDetailLayout.astro';
+import { pageTitle } from '../../../lib/i18n';
+import { commissionProjects } from '../../../lib/projects';
+
+export function getStaticPaths() {
+	return commissionProjects('en').map((project) => ({
+		params: { slug: project.slug },
+		props: { project },
+	}));
+}
+
+const locale = 'en';
+const { project } = Astro.props;
+const currentPath = `/en/commissions/${project.slug}`;
+---
+
+<ProjectDetailLayout
+	locale={locale}
+	currentPath={currentPath}
+	title={pageTitle(locale, project.title)}
+	description={`${project.title} — ${project.meta}`}
+>
+	<ProjectDetailContent locale={locale} project={project} />
+</ProjectDetailLayout>

@@ -1,0 +1,38 @@
+---
+import type { Locale } from '../lib/i18n';
+import type { CommissionProject } from '../lib/projects';
+import { commissionDetailPath, nextProjectLabel } from '../lib/projects';
+
+interface Props {
+	locale: Locale;
+	project: CommissionProject;
+}
+
+const { locale, project } = Astro.props;
+const label = nextProjectLabel(locale);
+---
+
+<h2 id="next-project-heading" class="project-detail__next-heading">{label}</h2>
+<a
+	class="next-project"
+	href={commissionDetailPath(locale, project.slug)}
+	aria-label={`${label}: ${project.title}`}
+>
+	<article class="next-project__card">
+		<div class="next-project__media" aria-hidden="true">
+			<img
+				src={project.heroImage}
+				alt=""
+				loading="lazy"
+				width="1140"
+				height="360"
+				data-photo-palette-source
+			/>
+		</div>
+		<div class="next-project__overlay" aria-hidden="true"></div>
+		<div class="next-project__caption">
+			<h3 class="next-project__title">{project.title}</h3>
+			<p class="next-project__meta">{project.meta}</p>
+		</div>
+	</article>
+</a>

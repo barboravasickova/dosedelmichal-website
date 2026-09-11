@@ -1,0 +1,19 @@
+---
+import CommissionProjectList from '../../components/CommissionProjectList.astro';
+import PageLayout from '../../layouts/PageLayout.astro';
+import { pageTitle } from '../../lib/i18n';
+import { commissionProjects } from '../../lib/projects';
+
+const locale = 'cs';
+const currentPath = '/cs/zakazkova-malba';
+const projects = commissionProjects(locale);
+---
+
+<PageLayout
+	locale={locale}
+	currentPath={currentPath}
+	title={pageTitle(locale, 'Zakázková malba')}
+	description="Zakázková malba — Michal Doseděl."
+>
+	<CommissionProjectList locale={locale} projects={projects} />
+</PageLayout>

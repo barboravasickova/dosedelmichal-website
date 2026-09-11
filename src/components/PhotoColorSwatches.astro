@@ -1,0 +1,27 @@
+---
+interface Props {
+	theme?: 'light' | 'dark';
+}
+
+const { theme = 'light' } = Astro.props;
+
+const fallbackHex = ['#181818', '#5c5c5c', '#e3e1da', '#c94b4b', '#4a7c59'];
+---
+
+<div
+	class:list={['photo-palette', theme === 'dark' && 'photo-palette--dark']}
+	data-photo-palette
+	aria-hidden="true"
+>
+	{
+		fallbackHex.map((hex) => (
+			<span class="photo-palette__swatch" style={{ backgroundColor: hex }}></span>
+		))
+	}
+</div>
+
+<script>
+	import { initPhotoPalette } from '../lib/photoColorPalette';
+
+	initPhotoPalette(document.querySelector('[data-photo-palette]'));
+</script>

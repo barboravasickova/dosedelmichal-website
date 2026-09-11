@@ -1,0 +1,19 @@
+---
+import ShopContent from '../../components/ShopContent.astro';
+import PageLayout from '../../layouts/PageLayout.astro';
+import { pageTitle } from '../../lib/i18n';
+import { placeholderProducts } from '../../lib/placeholders';
+
+const locale = 'en';
+const currentPath = '/en/shop';
+const products = placeholderProducts(locale, 3);
+---
+
+<PageLayout
+	locale={locale}
+	currentPath={currentPath}
+	title={pageTitle(locale, 'Shop')}
+	description="Shop — Michal Doseděl."
+>
+	<ShopContent products={products} locale={locale} />
+</PageLayout>

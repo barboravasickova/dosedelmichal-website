@@ -1,0 +1,60 @@
+---
+import type { Locale } from '../lib/i18n';
+
+interface Props {
+	locale: Locale;
+	theme?: 'light' | 'dark';
+}
+
+const { locale, theme = 'light' } = Astro.props;
+const label = locale === 'cs' ? 'Zpět nahoru' : 'Back to top';
+---
+
+<button
+	type="button"
+	class:list={['back-to-top', theme === 'dark' && 'back-to-top--dark']}
+	data-back-to-top
+	aria-label={label}
+>
+	<svg
+		class="back-to-top__icon"
+		width="20"
+		height="20"
+		viewBox="0 0 20 20"
+		fill="none"
+		xmlns="http://www.w3.org/2000/svg"
+		aria-hidden="true"
+	>
+		<path
+			d="M10 4L16 11H12.5V16H7.5V11H4L10 4Z"
+			fill="currentColor"
+		/>
+	</svg>
+</button>
+
+<script>
+	const DESKTOP_MQ = window.matchMedia('(min-width: 901px)');
+
+	function initBackToTop(button: HTMLButtonElement) {
+		const showAfter = 320;
+
+		const update = () => {
+			if (!DESKTOP_MQ.matches) {
+				button.classList.remove('back-to-top--visible');
+				return;
+			}
+			button.classList.toggle('back-to-top--visible', window.scrollY > showAfter);
+		};
+
+		button.addEventListener('click', () => {
+			const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+			window.scrollTo({ top: 0, behavior: prefersReduced ? 'auto' : 'smooth' });
+		});
+
+		window.addEventListener('scroll', update, { passive: true });
+		DESKTOP_MQ.addEventListener('change', update);
+		update();
+	}
+
+	document.querySelectorAll<HTMLButtonElement>('[data-back-to-top]').forEach(initBackToTop);
+</script>

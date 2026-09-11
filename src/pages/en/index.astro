@@ -1,0 +1,14 @@
+---
+import HomeLayout from '../../layouts/HomeLayout.astro';
+import { pageTitle } from '../../lib/i18n';
+
+const locale = 'en';
+const currentPath = '/en/';
+---
+
+<HomeLayout
+	locale={locale}
+	currentPath={currentPath}
+	title={pageTitle(locale)}
+	description="DOSE — Michal Doseděl. Painter and graffiti artist portfolio."
+/>

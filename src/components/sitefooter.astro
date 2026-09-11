@@ -1,0 +1,68 @@
+---
+import {
+	footerNavStacks,
+	footerText,
+	uiStrings,
+	type Locale,
+} from '../lib/i18n';
+import { contactEmail, social } from '../lib/site';
+
+interface Props {
+	locale: Locale;
+	variant?: 'minimal' | 'full';
+}
+
+const { locale, variant = 'full' } = Astro.props;
+const ui = uiStrings(locale);
+const footerNav = footerNavStacks(locale);
+---
+
+<footer class:list={['site-footer', variant === 'full' && 'site-footer--full']}>
+	{
+		variant === 'full' && (
+			<div class="site-footer__top">
+				<div class="site-footer__group site-footer__group--nav">
+					<p class="site-footer__heading">{ui.footerNavHeading}</p>
+					<div class="site-footer__nav-columns">
+						{footerNav.map((stack) => (
+							<ul class="site-footer__links">
+								{stack.map(({ href, label }) => (
+									<li>
+										<a href={href}>{label}</a>
+									</li>
+								))}
+							</ul>
+						))}
+					</div>
+				</div>
+				<div class="site-footer__group site-footer__group--meta">
+					<div class="site-footer__col">
+						<p class="site-footer__heading">{ui.footerContactHeading}</p>
+						<p class="site-footer__location">{ui.location}</p>
+						<p>
+							<a class="site-footer__email" href={`mailto:${contactEmail}`}>
+								{contactEmail}
+							</a>
+						</p>
+					</div>
+					<div class="site-footer__col">
+						<p class="site-footer__heading">{ui.footerFollow}</p>
+						<ul class="site-footer__social">
+							<li>
+								<a href={social.instagram} rel="noopener noreferrer" target="_blank">
+									Instagram
+								</a>
+							</li>
+							<li>
+								<a href={social.facebook} rel="noopener noreferrer" target="_blank">
+									Facebook
+								</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		)
+	}
+	<p class="site-footer__copy">{footerText(locale)}</p>
+</footer>

@@ -1,0 +1,59 @@
+---
+import { alternateLocalePath, homePath, navItems, type Locale } from '../lib/i18n';
+
+interface Props {
+	locale: Locale;
+	currentPath: string;
+	theme?: 'dark' | 'light';
+	width?: 'full' | 'contained';
+}
+
+const { locale, currentPath, theme = 'light', width = 'contained' } = Astro.props;
+const items = navItems(locale);
+const csPath = alternateLocalePath(currentPath, 'cs');
+const enPath = alternateLocalePath(currentPath, 'en');
+const logoSrc = theme === 'light' ? '/images/dose-logo-dark.svg' : '/images/dose-logo.svg';
+
+function isActive(href: string) {
+	const path = Astro.url.pathname.replace(/\/+$/, '') || '/';
+	const target = href.replace(/\/+$/, '') || '/';
+	if (path === target) return true;
+	if (target === '/cs/zakazkova-malba' && path.startsWith('/cs/zakazkova-malba/')) return true;
+	if (target === '/en/commissions' && path.startsWith('/en/commissions/')) return true;
+	return false;
+}
+---
+
+<header
+	class:list={[
+		'site-header',
+		theme === 'light' ? 'site-header--light' : 'site-header--dark',
+		width === 'full' ? 'site-header--full' : 'site-header--contained',
+	]}
+>
+	<div class="site-header__inner">
+		<a class="site-header__logo" href={homePath(locale)} aria-label="DOSE — domů">
+			<img src={logoSrc} width="96" height="35" alt="DOSE" />
+		</a>
+
+		<nav class="site-header__nav" aria-label={locale === 'cs' ? 'Hlavní menu' : 'Main menu'}>
+			{
+				items.map(({ href, label }) => (
+					<a href={href} aria-current={isActive(href) ? 'page' : undefined}>
+						{label}
+					</a>
+				))
+			}
+		</nav>
+
+		<div class="site-header__lang" aria-label={locale === 'cs' ? 'Jazyk' : 'Language'}>
+			<a href={csPath} aria-current={locale === 'cs' ? 'true' : undefined}>
+				CZ
+			</a>
+			<span aria-hidden="true">|</span>
+			<a href={enPath} aria-current={locale === 'en' ? 'true' : undefined}>
+				EN
+			</a>
+		</div>
+	</div>
+</header>

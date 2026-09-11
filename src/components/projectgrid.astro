@@ -1,0 +1,21 @@
+---
+import type { ProjectCard } from '../lib/placeholders';
+
+interface Props {
+	projects: ProjectCard[];
+}
+
+const { projects } = Astro.props;
+---
+
+<ul class="project-grid">
+	{
+		projects.map((project) => (
+			<li class="project-card">
+				<div class="project-card__media" aria-hidden="true" />
+				<h2 class="project-card__title">{project.title}</h2>
+				<p class="project-card__meta">{project.meta}</p>
+			</li>
+		))
+	}
+</ul>

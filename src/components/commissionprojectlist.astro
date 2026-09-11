@@ -1,0 +1,37 @@
+---
+import type { Locale } from '../lib/i18n';
+import type { CommissionProject } from '../lib/projects';
+import { commissionDetailPath } from '../lib/projects';
+
+interface Props {
+	locale: Locale;
+	projects: CommissionProject[];
+}
+
+const { locale, projects } = Astro.props;
+---
+
+<ul class="project-stack">
+	{
+		projects.map((project) => (
+			<li class="project-stack__item">
+				<a class="project-stack__link" href={commissionDetailPath(locale, project.slug)}>
+					<div class="project-stack__media" aria-hidden="true">
+						<img
+							src={project.heroImage}
+							alt=""
+							loading="lazy"
+							width="1140"
+							height="713"
+							data-photo-palette-source
+						/>
+					</div>
+					<div class="project-stack__caption">
+						<h2 class="project-stack__title">{project.title}</h2>
+						<p class="project-stack__meta">{project.meta}</p>
+					</div>
+				</a>
+			</li>
+		))
+	}
+</ul>

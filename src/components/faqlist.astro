@@ -1,0 +1,78 @@
+---
+import type { FaqBullet, FaqSection } from '../lib/faq';
+
+interface Props {
+	sections: FaqSection[];
+}
+
+const { sections } = Astro.props;
+
+function normalizeBullet(entry: FaqBullet) {
+	if (typeof entry === 'string') {
+		return { kind: 'plain' as const, text: entry };
+	}
+	return { kind: 'labeled' as const, label: entry.label, text: entry.text };
+}
+---
+
+<div class="faq-page" data-faq-accordion>
+	{
+		sections.map((section) => (
+			<section class="faq-section">
+				<h2 class="faq-section__title">{section.title}</h2>
+				<div class="faq-list">
+					{section.items.map((item) => (
+						<details class="faq-item">
+							<summary class="faq-item__question">{item.question}</summary>
+							<div class="faq-item__answer">
+								{item.paragraphs.map((paragraph) => (
+									<p>{paragraph}</p>
+								))}
+								{item.bullets && item.bullets.length > 0 && (
+									<ul class="faq-item__list">
+										{item.bullets.map((entry) => {
+											const bullet = normalizeBullet(entry);
+											return (
+												<li>
+													{bullet.kind === 'plain' ? (
+														bullet.text
+													) : (
+														<span class="faq-item__bullet">
+															<strong class="faq-item__bullet-label">
+																{bullet.label}
+															</strong>
+															{': '}
+															{bullet.text}
+														</span>
+													)}
+												</li>
+											);
+										})}
+									</ul>
+								)}
+								{item.afterParagraphs?.map((paragraph) => (
+									<p>{paragraph}</p>
+								))}
+							</div>
+						</details>
+					))}
+				</div>
+			</section>
+		))
+	}
+</div>
+
+<script>
+	function initFaqAccordion(root: HTMLElement) {
+		root.querySelectorAll('details').forEach((detail) => {
+			detail.addEventListener('toggle', () => {
+				if (!detail.open) return;
+				root.querySelectorAll('details[open]').forEach((openDetail) => {
+					if (openDetail !== detail) openDetail.open = false;
+				});
+			});
+		});
+	}
+
+	document.querySelectorAll<HTMLElement>('[data-faq-accordion]').forEach(initFaqAccordion);
+</script>

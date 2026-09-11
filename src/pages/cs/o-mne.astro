@@ -1,0 +1,18 @@
+---
+import AboutContent from '../../components/AboutContent.astro';
+import PageLayout from '../../layouts/PageLayout.astro';
+import { pageTitle } from '../../lib/i18n';
+
+const locale = 'cs';
+const currentPath = '/cs/o-mne';
+---
+
+<PageLayout
+	locale={locale}
+	currentPath={currentPath}
+	title={pageTitle(locale, 'O mně')}
+	description="Michal Doseděl (DOSE) — street art, muraly a velkoformátová zakázková malba."
+	heading="O mně"
+>
+	<AboutContent locale={locale} />
+</PageLayout>
