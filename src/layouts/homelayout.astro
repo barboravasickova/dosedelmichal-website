@@ -1,7 +1,6 @@
 ---
 import BackToTop from '../components/BackToTop.astro';
 import PhotoColorSwatches from '../components/PhotoColorSwatches.astro';
-import SiteFooter from '../components/SiteFooter.astro';
 import SiteHeader from '../components/SiteHeader.astro';
 import type { Locale } from '../lib/i18n';
 import '../styles/global.css';
@@ -35,14 +34,15 @@ const { locale, title, description, currentPath } = Astro.props;
 	<body>
 		<div class="hero">
 			<div class="hero__bg" aria-hidden="true">
-				<img
-					src="/images/homepage-hero.jpg"
-					alt=""
-					width="1920"
-					height="1280"
-					fetchpriority="high"
-					data-photo-palette-source
-				/>
+				<video
+					class="hero__bg-video"
+					src="/images/dose-video.webm"
+					autoplay
+					muted
+					loop
+					playsinline
+					preload="auto"
+				></video>
 			</div>
 
 			<SiteHeader locale={locale} currentPath={currentPath} theme="dark" width="contained" />
@@ -52,10 +52,22 @@ const { locale, title, description, currentPath } = Astro.props;
 					<img src="/images/hero-wordmark.svg" width="435" height="485" alt="" decoding="async" />
 				</div>
 			</main>
-
-			<SiteFooter locale={locale} variant="minimal" />
 		</div>
 		<PhotoColorSwatches theme="dark" />
 		<BackToTop locale={locale} theme="dark" />
+		<script>
+			const heroVideo = document.querySelector<HTMLVideoElement>('.hero__bg-video');
+			if (!heroVideo) throw new Error('Hero video missing');
+
+			heroVideo.muted = true;
+			const tryPlay = () => {
+				void heroVideo.play().catch(() => {
+					/* autoplay can be blocked; muted loop usually recovers on interaction */
+				});
+			};
+
+			if (heroVideo.readyState >= 2) tryPlay();
+			else heroVideo.addEventListener('loadeddata', tryPlay, { once: true });
+		</script>
 	</body>
 </html>

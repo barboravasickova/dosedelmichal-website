@@ -13,6 +13,8 @@ const items = navItems(locale);
 const csPath = alternateLocalePath(currentPath, 'cs');
 const enPath = alternateLocalePath(currentPath, 'en');
 const logoSrc = theme === 'light' ? '/images/dose-logo-dark.svg' : '/images/dose-logo.svg';
+const menuLabel = locale === 'cs' ? 'Otevřít menu' : 'Open menu';
+const closeLabel = locale === 'cs' ? 'Zavřít menu' : 'Close menu';
 
 function isActive(href: string) {
 	const path = Astro.url.pathname.replace(/\/+$/, '') || '/';
@@ -30,13 +32,19 @@ function isActive(href: string) {
 		theme === 'light' ? 'site-header--light' : 'site-header--dark',
 		width === 'full' ? 'site-header--full' : 'site-header--contained',
 	]}
+	data-site-header
 >
 	<div class="site-header__inner">
 		<a class="site-header__logo" href={homePath(locale)} aria-label="DOSE — domů">
 			<img src={logoSrc} width="96" height="35" alt="DOSE" />
 		</a>
 
-		<nav class="site-header__nav" aria-label={locale === 'cs' ? 'Hlavní menu' : 'Main menu'}>
+		<nav
+			class="site-header__nav"
+			id="site-header-nav"
+			data-site-nav
+			aria-label={locale === 'cs' ? 'Hlavní menu' : 'Main menu'}
+		>
 			{
 				items.map(({ href, label }) => (
 					<a href={href} aria-current={isActive(href) ? 'page' : undefined}>
@@ -46,14 +54,69 @@ function isActive(href: string) {
 			}
 		</nav>
 
-		<div class="site-header__lang" aria-label={locale === 'cs' ? 'Jazyk' : 'Language'}>
-			<a href={csPath} aria-current={locale === 'cs' ? 'true' : undefined}>
-				CZ
-			</a>
-			<span aria-hidden="true">|</span>
-			<a href={enPath} aria-current={locale === 'en' ? 'true' : undefined}>
-				EN
-			</a>
+		<div class="site-header__actions">
+			<div class="site-header__lang" aria-label={locale === 'cs' ? 'Jazyk' : 'Language'}>
+				<a href={csPath} aria-current={locale === 'cs' ? 'true' : undefined}>
+					CZ
+				</a>
+				<span aria-hidden="true">|</span>
+				<a href={enPath} aria-current={locale === 'en' ? 'true' : undefined}>
+					EN
+				</a>
+			</div>
+
+			<button
+				type="button"
+				class="site-header__toggle"
+				data-site-nav-toggle
+				aria-controls="site-header-nav"
+				aria-expanded="false"
+				aria-label={menuLabel}
+				data-label-open={menuLabel}
+				data-label-close={closeLabel}
+			>
+				<span class="site-header__toggle-box" aria-hidden="true">
+					<span class="site-header__toggle-line"></span>
+					<span class="site-header__toggle-line"></span>
+					<span class="site-header__toggle-line"></span>
+				</span>
+			</button>
 		</div>
 	</div>
 </header>
+
+<script>
+	const header = document.querySelector<HTMLElement>('[data-site-header]');
+	const toggle = document.querySelector<HTMLButtonElement>('[data-site-nav-toggle]');
+	const nav = document.querySelector<HTMLElement>('[data-site-nav]');
+
+	if (header && toggle && nav) {
+		const mq = matchMedia('(max-width: 900px)');
+
+		const setOpen = (open: boolean) => {
+			header.classList.toggle('is-nav-open', open);
+			toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+			toggle.setAttribute(
+				'aria-label',
+				open ? (toggle.dataset.labelClose ?? 'Close menu') : (toggle.dataset.labelOpen ?? 'Open menu'),
+			);
+			document.body.classList.toggle('is-nav-locked', open && mq.matches);
+		};
+
+		toggle.addEventListener('click', () => {
+			setOpen(!header.classList.contains('is-nav-open'));
+		});
+
+		nav.querySelectorAll('a').forEach((link) => {
+			link.addEventListener('click', () => setOpen(false));
+		});
+
+		document.addEventListener('keydown', (event) => {
+			if (event.key === 'Escape') setOpen(false);
+		});
+
+		mq.addEventListener('change', () => {
+			if (!mq.matches) setOpen(false);
+		});
+	}
+</script>
