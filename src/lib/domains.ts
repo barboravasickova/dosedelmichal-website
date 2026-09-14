@@ -27,9 +27,9 @@ export function homePathForHostname(hostname: string): string {
 	return homePath(localeFromHostname(hostname));
 }
 
-/** Jednotný inline skript pro `src/pages/index.astro`. */
-export function rootRedirectInlineScript(): string {
-	return `(function(){var h=location.hostname.toLowerCase();var en=h==='dosedelmichal.com'||h==='www.dosedelmichal.com';var cs=h==='dosedelmichal.cz'||h==='www.dosedelmichal.cz';var local=h==='localhost'||h==='127.0.0.1';location.replace(local?'/cs/':en?'/en/':cs?'/cs/':'/en/');})();`;
+/** Kořen `/` na .com je anglická homepage — přesměrovat jen .cz a localhost. */
+export function czechDevRootRedirectScript(): string {
+	return `(function(){var h=location.hostname.toLowerCase();if(h==='dosedelmichal.cz'||h==='www.dosedelmichal.cz'||h==='localhost'||h==='127.0.0.1'){location.replace('/cs/');}})();`;
 }
 
 export function localeOrigin(locale: Locale): string {

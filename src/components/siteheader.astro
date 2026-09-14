@@ -21,6 +21,7 @@ function isActive(href: string) {
 	const path = Astro.url.pathname.replace(/\/+$/, '') || '/';
 	const target = href.replace(/\/+$/, '') || '/';
 	if (path === target) return true;
+	if (target === '/en' && path === '/') return true;
 	if (target === '/cs/zakazkova-malba' && path.startsWith('/cs/zakazkova-malba/')) return true;
 	if (target === '/en/commissions' && path.startsWith('/en/commissions/')) return true;
 	return false;

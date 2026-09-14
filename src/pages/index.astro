@@ -1,26 +1,17 @@
 ---
-import { homeUrl, localeFromHostname, rootRedirectInlineScript } from '../lib/domains';
+import HomeLayout from '../layouts/HomeLayout.astro';
+import { czechDevRootRedirectScript } from '../lib/domains';
+import { pageTitle } from '../lib/i18n';
 
-const htmlLang = localeFromHostname('dosedelmichal.com');
+const locale = 'en';
+const currentPath = '/en/';
 ---
 
-<!doctype html>
-<html lang={htmlLang}>
-	<head>
-		<meta charset="utf-8" />
-		<script is:inline set:html={rootRedirectInlineScript()} />
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<meta name="color-scheme" content="dark" />
-		<link rel="alternate" hreflang="cs" href={homeUrl('cs')} />
-		<link rel="alternate" hreflang="en" href={homeUrl('en')} />
-		<title>Michal Doseděl — DOSE</title>
-		<style>
-			html,
-			body {
-				margin: 0;
-				background: #181818;
-			}
-		</style>
-	</head>
-	<body></body>
-</html>
+<HomeLayout
+	locale={locale}
+	currentPath={currentPath}
+	title={pageTitle(locale)}
+	description="DOSE — Michal Doseděl. Painter and graffiti artist portfolio."
+	inlineHeadScript={czechDevRootRedirectScript()}
+	canonicalUrl="https://dosedelmichal.com/en/"
+/>

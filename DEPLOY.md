@@ -19,7 +19,7 @@ Přepínač **CZ | EN** v menu vede na druhou doménu se stejnou stránkou.
 
 ## DNS (Webglobe)
 
-**dosedelmichal.com** — apex `@` (A záznamy jako u GitHub Pages) nebo přesměrování na `https://dosedelmichal.com/en/` (ne na `/cs/`). Kořen `/` v buildu přesměruje `.com` → `/en/`.
+**dosedelmichal.com** — apex `@` (A záznamy jako u GitHub Pages). Kořen `/` je **anglická homepage** (bez redirect stránky); `/en/` je stejný obsah s kanonickou URL.
 
 **dosedelmichal.cz** — ideálně **přesměrování (URL forward)** na `https://dosedelmichal.com/cs/` (GitHub Pages u repa podporuje jen jednu custom doménu v `CNAME`; obě domény na stejný build tedy často řešíš forwardem u registrátora).
 
