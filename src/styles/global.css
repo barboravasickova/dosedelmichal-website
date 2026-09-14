@@ -368,11 +368,61 @@ body.is-nav-locked {
 	color: rgb(24 24 24 / 0.45);
 }
 
-.site-footer__copy-legal {
-	display: inline-block;
+.site-footer__copy-line {
+	display: block;
+}
+
+.site-footer__copy-line + .site-footer__copy-line {
 	margin-top: 0.35em;
-	text-transform: none;
-	letter-spacing: 0.04em;
+}
+
+.site-footer__copy-link {
+	color: inherit;
+	text-decoration: underline;
+	text-decoration-color: rgb(24 24 24 / 0.28);
+	text-underline-offset: 0.2em;
+	transition: text-decoration-color 0.2s ease;
+}
+
+.site-footer__copy-link:hover,
+.site-footer__copy-link:focus-visible {
+	text-decoration-color: rgb(24 24 24 / 0.55);
+}
+
+.site-footer__copy-link:focus-visible {
+	outline: 2px solid rgb(24 24 24 / 0.35);
+	outline-offset: 2px;
+}
+
+.legal-page {
+	max-width: 40em;
+	font-size: var(--body-size);
+	line-height: var(--body-leading);
+	color: var(--text-soft);
+}
+
+.legal-page__intro {
+	margin: 0 0 1.5rem;
+	color: var(--ink);
+}
+
+.legal-page__section + .legal-page__section {
+	margin-top: 1.75rem;
+}
+
+.legal-page__heading {
+	margin: 0 0 0.65rem;
+	font-size: clamp(0.9375rem, 0.35vw + 0.875rem, 1.0625rem);
+	font-weight: 600;
+	color: var(--ink);
+}
+
+.legal-page__section p {
+	margin: 0;
+}
+
+.legal-page__section p + p {
+	margin-top: 0.65rem;
 }
 
 @media (min-width: 900px) {
@@ -1369,6 +1419,79 @@ body.is-nav-locked {
 .contact-form__submit:focus-visible {
 	outline: 2px solid var(--ink);
 	outline-offset: 3px;
+}
+
+.contact-form__privacy {
+	margin: 0.25rem 0 0;
+	max-width: 40em;
+	font-size: clamp(0.75rem, 0.2vw + 0.6875rem, 0.8125rem);
+	line-height: 1.55;
+	color: var(--text-muted);
+}
+
+.contact-form__privacy a {
+	color: var(--ink);
+	text-decoration: underline;
+	text-decoration-color: rgb(24 24 24 / 0.28);
+	text-underline-offset: 0.2em;
+}
+
+.contact-form__privacy a:hover,
+.contact-form__privacy a:focus-visible {
+	text-decoration-color: var(--ink);
+}
+
+.contact-billing {
+	margin-top: clamp(1.25rem, 3vw, 1.75rem);
+	padding-top: clamp(1rem, 2.5vw, 1.35rem);
+	border-top: 1px solid rgb(24 24 24 / 0.08);
+	max-width: 28em;
+}
+
+.contact-billing__heading {
+	margin: 0 0 0.75rem;
+	font-size: clamp(0.9375rem, 0.35vw + 0.875rem, 1.0625rem);
+	font-weight: 600;
+	color: var(--ink);
+}
+
+.contact-billing__list {
+	margin: 0;
+}
+
+.contact-billing__row {
+	margin: 0;
+}
+
+.contact-billing__row + .contact-billing__row {
+	margin-top: 0.35rem;
+}
+
+.contact-billing__row dt {
+	font-size: clamp(0.6875rem, 0.8vw, 0.8125rem);
+	font-weight: 600;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	color: var(--text-muted);
+}
+
+.contact-billing__row dd {
+	margin: 0.15rem 0 0;
+	font-size: var(--body-size);
+	line-height: 1.45;
+	color: var(--text-soft);
+}
+
+.contact-billing__sr-only {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	white-space: nowrap;
+	border: 0;
 }
 
 @media (max-width: 860px) {

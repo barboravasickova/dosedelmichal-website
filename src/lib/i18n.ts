@@ -85,25 +85,32 @@ export function alternateLocalePath(pathname: string, target: Locale): string {
 		const slug = csCommissionDetail?.[1] ?? enCommissionDetail?.[1] ?? '';
 		return target === 'cs' ? `/cs/zakazkova-malba/${slug}` : `/en/commissions/${slug}`;
 	}
+	if (normalized === '/cs/zpracovani-osobnich-udaju' || normalized === '/en/privacy-policy') {
+		return target === 'cs' ? '/cs/zpracovani-osobnich-udaju' : '/en/privacy-policy';
+	}
 	const entry = pathToKey.get(normalized) ?? pathToKey.get(pathname);
 	if (!entry) return homePath(target);
 	if (entry.key === 'home') return homePath(target);
 	return routes[target][entry.key];
 }
 
-export function footerText(locale: Locale) {
+export function footerCopyrightLine(locale: Locale) {
 	const year = new Date().getFullYear();
 	if (locale === 'cs') {
-		return `© ${year} MICHALDOSEDEL.COM — VŠECHNA PRÁVA VYHRAZENA`;
+		return `© ${year} Michal Doseděl. Všechna práva vyhrazena.`;
 	}
-	return `© ${year} MICHALDOSEDEL.COM — ALL RIGHTS RESERVED`;
+	return `© ${year} Michal Doseděl. All rights reserved.`;
 }
 
-export function footerLegal(locale: Locale) {
+export function footerTradeRegistryLine(locale: Locale) {
 	if (locale === 'cs') {
-		return 'Fyzická osoba zapsaná v živnostenském rejstříku. IČO: 88091945';
+		return 'Fyzická osoba zapsaná v živnostenském rejstříku';
 	}
-	return 'Sole proprietor registered in the Trade Register. Business ID (IČO): 88091945';
+	return 'Sole proprietor registered in the Trade Register';
+}
+
+export function footerPrivacyLinkLabel(locale: Locale) {
+	return locale === 'cs' ? 'Ochrana osobních údajů' : 'Personal data protection';
 }
 
 export function pageTitle(locale: Locale, section?: string) {

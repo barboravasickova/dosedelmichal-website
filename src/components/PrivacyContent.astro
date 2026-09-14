@@ -1,0 +1,25 @@
+---
+import { privacyPageContent } from '../lib/privacy';
+import type { Locale } from '../lib/i18n';
+
+interface Props {
+	locale: Locale;
+}
+
+const { locale } = Astro.props;
+const content = privacyPageContent(locale);
+---
+
+<article class="legal-page">
+	<p class="legal-page__intro">{content.intro}</p>
+	{
+		content.sections.map((section) => (
+			<section class="legal-page__section">
+				<h2 class="legal-page__heading">{section.heading}</h2>
+				{section.paragraphs.map((paragraph) => (
+					<p>{paragraph}</p>
+				))}
+			</section>
+		))
+	}
+</article>

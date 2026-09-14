@@ -1,12 +1,14 @@
 ---
 import {
-	footerLegal,
+	footerCopyrightLine,
 	footerNavStacks,
-	footerText,
+	footerPrivacyLinkLabel,
+	footerTradeRegistryLine,
 	uiStrings,
 	type Locale,
 } from '../lib/i18n';
-import { contactEmail } from '../lib/site';
+import { privacyPath } from '../lib/privacy';
+import { businessInfo, contactEmail } from '../lib/site';
 
 interface Props {
 	locale: Locale;
@@ -51,8 +53,12 @@ const footerNav = footerNavStacks(locale);
 		)
 	}
 	<p class="site-footer__copy">
-		{footerText(locale)}
-		<br />
-		<span class="site-footer__copy-legal">{footerLegal(locale)}</span>
+		<span class="site-footer__copy-line">{footerCopyrightLine(locale)}</span>
+		<span class="site-footer__copy-line">
+			IČO: {businessInfo.ico} | {footerTradeRegistryLine(locale)} |
+			<a class="site-footer__copy-link" href={privacyPath(locale)}>
+				{footerPrivacyLinkLabel(locale)}
+			</a>
+		</span>
 	</p>
 </footer>

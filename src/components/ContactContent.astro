@@ -1,7 +1,8 @@
 ---
-import { contactEmail } from '../lib/site';
+import { contactEmail, businessInfo } from '../lib/site';
 import { absolutePageUrl } from '../lib/domains';
 import { contactPath, contactStrings } from '../lib/contact';
+import { privacyPath } from '../lib/privacy';
 import type { Locale } from '../lib/i18n';
 
 interface Props {
@@ -90,6 +91,33 @@ const contactImageSrc = '/images/kontakt-mural.png';
 
 					<button class="contact-form__submit" type="submit">{inquiry.submit}</button>
 				</form>
+
+				<p class="contact-form__privacy">
+					{copy.formPrivacy.lead}{' '}
+					<a href={privacyPath(locale)}>{copy.formPrivacy.linkLabel}</a>.
+				</p>
+
+				<div class="contact-billing">
+					<h3 class="contact-billing__heading">{copy.billing.heading}</h3>
+					<dl class="contact-billing__list">
+						<div class="contact-billing__row">
+							<dt>{copy.billing.nameLabel}</dt>
+							<dd>{businessInfo.fullName}</dd>
+						</div>
+						<div class="contact-billing__row">
+							<dt class="contact-billing__sr-only">{copy.billing.addressSrLabel}</dt>
+							<dd>{businessInfo.address}</dd>
+						</div>
+						<div class="contact-billing__row">
+							<dt class="contact-billing__sr-only">{copy.billing.icoSrLabel}</dt>
+							<dd>IČO: {businessInfo.ico}</dd>
+						</div>
+						<div class="contact-billing__row">
+							<dt class="contact-billing__sr-only">{copy.billing.legalStatus}</dt>
+							<dd>{copy.billing.legalStatus}</dd>
+						</div>
+					</dl>
+				</div>
 			</section>
 		</div>
 

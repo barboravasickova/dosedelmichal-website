@@ -22,6 +22,17 @@ export type ContactCopy = {
 	sentMessage: string;
 	formSubject: string;
 	imageAlt: string;
+	formPrivacy: {
+		lead: string;
+		linkLabel: string;
+	};
+	billing: {
+		heading: string;
+		nameLabel: string;
+		addressSrLabel: string;
+		icoSrLabel: string;
+		legalStatus: string;
+	};
 };
 
 const contactPaths: Record<Locale, string> = {
@@ -57,6 +68,17 @@ export function contactStrings(locale: Locale): ContactCopy {
 			sentMessage: 'Děkuji — poptávka byla odeslána. Ozvu se co nejdříve.',
 			formSubject: 'Poptávka projektu — dosedelmichal.com',
 			imageAlt: 'Realizace muralu — detail malby ve veřejném prostoru',
+			formPrivacy: {
+				lead: 'Odesláním formuláře berete na vědomí zpracování osobních údajů pro účely vyřízení poptávky.',
+				linkLabel: 'Více informací o GDPR',
+			},
+			billing: {
+				heading: 'Fakturační údaje',
+				nameLabel: 'Jméno a příjmení',
+				addressSrLabel: 'Adresa',
+				icoSrLabel: 'IČO',
+				legalStatus: 'Fyzická osoba zapsaná v živnostenském rejstříku, neplátce DPH',
+			},
 		};
 	}
 
@@ -82,5 +104,16 @@ export function contactStrings(locale: Locale): ContactCopy {
 		sentMessage: 'Thank you — your inquiry was sent. I will reply as soon as I can.',
 		formSubject: 'Project inquiry — dosedelmichal.com',
 		imageAlt: 'Mural in progress — detail of a painting in public space',
+		formPrivacy: {
+			lead: 'By submitting the form you acknowledge the processing of personal data for the purpose of handling your inquiry.',
+			linkLabel: 'More about GDPR',
+		},
+		billing: {
+			heading: 'Billing details',
+			nameLabel: 'Full name',
+			addressSrLabel: 'Address',
+			icoSrLabel: 'Business ID',
+			legalStatus: 'Sole proprietor registered in the Trade Register, non-VAT payer',
+		},
 	};
 }
