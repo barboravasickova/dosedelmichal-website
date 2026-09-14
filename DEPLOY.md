@@ -1,18 +1,17 @@
 # Nasazení na dosedelmichal.com (GitHub Pages)
 
-Workflow **Deploy to GitHub Pages** po každém pushi na `main` spustí `npm run build` a obsah složky `dist/` nahraje do větve **`gh-pages`**.
+Po pushi na `main` workflow **Deploy to GitHub Pages** spustí `npm run build` a nahraje složku `dist/` na GitHub Pages (včetně souboru `CNAME` z `public/CNAME`).
 
 ## Nastavení repozitáře (jednou)
 
-1. GitHub → **Settings** → **Pages**
-2. **Build and deployment** → **Source:** **Deploy from a branch**
-3. **Branch:** **`gh-pages`** / **`/ (root)`** → Save  
-   (Nepoužívejte větev `main` — v ní je zdroják Astro, ne hotový web.)
-4. V **Custom domain** nechte **`dosedelmichal.com`** (soubor `public/CNAME` je součást buildu).
-
-Po uložení a úspěšném běhu Actions (zelený workflow) počkejte 1–5 minut na propagaci CDN.
+1. GitHub → repozitář **dosedelmichal-website** → **Settings** → **Pages**
+2. **Build and deployment** → **Source:** **GitHub Actions** (ne „Deploy from a branch“ a ne větev `main`)
+3. V **Custom domain** zadej **`dosedelmichal.com`** → Save  
+   (DNS už směřuje na GitHub; apex A záznamy `185.199.108.153`, `185.199.110.153`, `185.199.111.153`, www CNAME na `barboravasickova.github.io`.)
+4. Po prvním deployi zapni **Enforce HTTPS**, až GitHub doménu ověří.
 
 ## Kontrola
 
-- Actions → **Deploy to GitHub Pages** musí skončit zeleně.
-- Otevřete https://dosedelmichal.com/ — mělo by přesměrovat na `/cs/`.
+- **Actions** → **Deploy to GitHub Pages** musí skončit zeleně (build + deploy).
+- https://dosedelmichal.com/ → přesměrování na `/cs/`.
+- Pokud vidíte starou stránku „Na novém webu právě pracuji…“, zkontrolujte bod 2 (Source = GitHub Actions) a počkejte pár minut na CDN.
