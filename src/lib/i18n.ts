@@ -99,6 +99,13 @@ export function footerText(locale: Locale) {
 	return `© ${year} MICHALDOSEDEL.COM — ALL RIGHTS RESERVED`;
 }
 
+export function footerLegal(locale: Locale) {
+	if (locale === 'cs') {
+		return 'Fyzická osoba zapsaná v živnostenském rejstříku. IČO: 88091945';
+	}
+	return 'Sole proprietor registered in the Trade Register. Business ID (IČO): 88091945';
+}
+
 export function pageTitle(locale: Locale, section?: string) {
 	const base = 'DOSE — Michal Doseděl';
 	if (!section) return base;
@@ -168,14 +175,12 @@ export function uiStrings(locale: Locale) {
 		return {
 			footerNavHeading: 'Navigace',
 			footerContactHeading: 'Kontakt',
-			footerFollow: 'Follow',
 			location: 'Brno, ČR',
 		};
 	}
 	return {
 		footerNavHeading: 'Navigation',
 		footerContactHeading: 'Contact',
-		footerFollow: 'Follow',
 		location: 'Brno, CZ',
 	};
 }

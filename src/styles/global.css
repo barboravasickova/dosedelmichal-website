@@ -368,6 +368,13 @@ body.is-nav-locked {
 	color: rgb(24 24 24 / 0.45);
 }
 
+.site-footer__copy-legal {
+	display: inline-block;
+	margin-top: 0.35em;
+	text-transform: none;
+	letter-spacing: 0.04em;
+}
+
 @media (min-width: 900px) {
 	.site-footer__copy {
 		text-align: left;

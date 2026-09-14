@@ -1,11 +1,12 @@
 ---
 import {
+	footerLegal,
 	footerNavStacks,
 	footerText,
 	uiStrings,
 	type Locale,
 } from '../lib/i18n';
-import { contactEmail, social } from '../lib/site';
+import { contactEmail } from '../lib/site';
 
 interface Props {
 	locale: Locale;
@@ -45,24 +46,13 @@ const footerNav = footerNavStacks(locale);
 							</a>
 						</p>
 					</div>
-					<div class="site-footer__col">
-						<p class="site-footer__heading">{ui.footerFollow}</p>
-						<ul class="site-footer__social">
-							<li>
-								<a href={social.instagram} rel="noopener noreferrer" target="_blank">
-									Instagram
-								</a>
-							</li>
-							<li>
-								<a href={social.facebook} rel="noopener noreferrer" target="_blank">
-									Facebook
-								</a>
-							</li>
-						</ul>
-					</div>
 				</div>
 			</div>
 		)
 	}
-	<p class="site-footer__copy">{footerText(locale)}</p>
+	<p class="site-footer__copy">
+		{footerText(locale)}
+		<br />
+		<span class="site-footer__copy-legal">{footerLegal(locale)}</span>
+	</p>
 </footer>

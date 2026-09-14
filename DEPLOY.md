@@ -21,9 +21,23 @@ Přepínač **CZ | EN** v menu vede na druhou doménu se stejnou stránkou.
 
 **dosedelmichal.com** — apex `@` (A záznamy jako u GitHub Pages). Kořen `/` je **anglická homepage** (bez redirect stránky); `/en/` je stejný obsah s kanonickou URL.
 
-**dosedelmichal.cz** — ideálně **přesměrování (URL forward)** na `https://dosedelmichal.com/cs/` (GitHub Pages u repa podporuje jen jednu custom doménu v `CNAME`; obě domény na stejný build tedy často řešíš forwardem u registrátora).
+**dosedelmichal.cz** — jen **přesměrování domény (URL forward)**, ne stejné A záznamy jako .com (viz níže).
 
-Stejné **A** záznamy pro `@`, pokud místo forwardu míříš DNS přímo na GitHub:
+### Webglobe: `.cz` → česká verze na `.com`
+
+1. Přihlášení → **Moje domény** → **dosedelmichal.cz** → **DNS / Přesměrování** (nebo **Správa domény**).
+2. Zapni **Přesměrování domény** / **URL redirect** (HTTP 301).
+3. **Cílová adresa musí být celá URL včetně cesty**, ne jen doména:
+   - správně: `https://dosedelmichal.com/cs/` (nebo `https://dosedelmichal.com/cs`)
+   - špatně: `https://dosedelmichal.com` nebo `dosedelmichal.com` → skončíš na anglické homepage.
+4. Stejné přesměrování nastav i pro **www.dosedelmichal.cz** (pokud Webglobe řeší www zvlášť).
+5. U `.cz` **smaž nebo nepoužívej** A záznamy na GitHub, pokud má běžet jen forward — jinak může DNS obcházet přesměrování.
+
+GitHub Pages má v repu v `CNAME` jen **dosedelmichal.com**; `.cz` na web nemusíš přidávat do GitHub Custom domains.
+
+**dosedelmichal.com** — A záznamy na GitHub (ne forward na `/cs/`):
+
+Stejné **A** záznamy pro `@` u **.com**:
 
 `185.199.108.153`, `185.199.109.153`, `185.199.110.153`, `185.199.111.153`
 
