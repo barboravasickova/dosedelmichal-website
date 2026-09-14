@@ -1,11 +1,12 @@
 type Rgb = [number, number, number];
 
+/** Neutrální paleta (textové stránky bez fotky, např. FAQ). */
 const FALLBACK: Rgb[] = [
 	[24, 24, 24],
-	[92, 92, 92],
+	[56, 56, 56],
+	[96, 96, 96],
+	[152, 152, 152],
 	[227, 225, 218],
-	[201, 75, 75],
-	[74, 124, 89],
 ];
 
 function rgbToHex([r, g, b]: Rgb): string {
@@ -107,10 +108,7 @@ function getTrackedImages(): HTMLImageElement[] {
 function pickDominantImage(): HTMLImageElement | null {
 	const images = getTrackedImages();
 	if (images.length === 0) {
-		return (
-			document.querySelector<HTMLImageElement>('main img[src]') ??
-			document.querySelector<HTMLImageElement>('.hero__bg img')
-		);
+		return null;
 	}
 
 	const viewportCenter = window.innerHeight / 2;

@@ -1647,8 +1647,7 @@ body.is-nav-locked {
 	padding: clamp(1rem, 2.5vw, 1.25rem) 0;
 	font-size: clamp(0.875rem, 0.35vw + 0.8125rem, 1rem);
 	font-weight: 600;
-	letter-spacing: 0.08em;
-	text-transform: uppercase;
+	letter-spacing: 0.01em;
 	line-height: 1.45;
 	text-wrap: balance;
 	list-style: none;
