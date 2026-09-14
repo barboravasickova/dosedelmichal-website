@@ -1,0 +1,108 @@
+---
+import { contactEmail } from '../lib/site';
+import { contactPath, contactStrings } from '../lib/contact';
+import type { Locale } from '../lib/i18n';
+
+interface Props {
+	locale: Locale;
+	sent?: boolean;
+}
+
+const { locale, sent = false } = Astro.props;
+const copy = contactStrings(locale);
+const formAction = `https://formsubmit.co/${encodeURIComponent(contactEmail)}`;
+const formNext = new URL(`${contactPath(locale)}?sent=1`, Astro.site).href;
+const { quick, inquiry } = copy;
+const contactImageSrc = '/images/kontakt-mural.png';
+---
+
+<div class="contact-page">
+	{
+		sent && (
+			<p class="contact-page__success" role="status">
+				{copy.sentMessage}
+			</p>
+		)
+	}
+
+	<div class="contact-page__layout">
+		<div class="contact-page__main">
+			<section class="contact-block" aria-labelledby="contact-quick-heading">
+				<h1 id="contact-quick-heading" class="contact-block__heading">{quick.heading}</h1>
+				<p class="contact-block__body">{quick.body}</p>
+				<a class="contact-block__email" href={`mailto:${contactEmail}`}>{contactEmail}</a>
+			</section>
+
+			<section class="contact-block contact-block--form" aria-labelledby="contact-inquiry-heading">
+				<h2 id="contact-inquiry-heading" class="contact-block__heading">{inquiry.heading}</h2>
+				<p class="contact-block__body">{inquiry.body}</p>
+
+				<form
+					class="contact-form"
+					action={formAction}
+					method="post"
+					enctype="multipart/form-data"
+				>
+					<input type="hidden" name="_subject" value={copy.formSubject} />
+					<input type="hidden" name="_next" value={formNext} />
+					<input type="hidden" name="_template" value="table" />
+					<input type="text" name="_honey" class="contact-form__honey" tabindex="-1" autocomplete="off" />
+
+					<div class="contact-form__field">
+						<label for="contact-name">{inquiry.fields.name}</label>
+						<input id="contact-name" name="name" type="text" required autocomplete="name" />
+					</div>
+
+					<div class="contact-form__field">
+						<label for="contact-email">{inquiry.fields.email}</label>
+						<input
+							id="contact-email"
+							name="email"
+							type="email"
+							required
+							autocomplete="email"
+							inputmode="email"
+						/>
+					</div>
+
+					<div class="contact-form__field">
+						<label for="contact-location">{inquiry.fields.location}</label>
+						<input
+							id="contact-location"
+							name="location"
+							type="text"
+							required
+							placeholder={inquiry.fields.locationPlaceholder}
+						/>
+					</div>
+
+					<div class="contact-form__field">
+						<label for="contact-description">{inquiry.fields.description}</label>
+						<textarea id="contact-description" name="description" rows={6} required></textarea>
+					</div>
+
+					<div class="contact-form__field">
+						<label for="contact-attachment">{inquiry.fields.attachment}</label>
+						<p class="contact-form__hint">{inquiry.fields.attachmentHint}</p>
+						<input id="contact-attachment" name="attachment" type="file" accept="image/*,.pdf" />
+					</div>
+
+					<button class="contact-form__submit" type="submit">{inquiry.submit}</button>
+				</form>
+			</section>
+		</div>
+
+		<figure class="contact-page__figure">
+			<img
+				class="contact-page__photo"
+				src={contactImageSrc}
+				alt={copy.imageAlt}
+				width={428}
+				height={858}
+				loading="lazy"
+				decoding="async"
+				data-photo-palette-source
+			/>
+		</figure>
+	</div>
+</div>

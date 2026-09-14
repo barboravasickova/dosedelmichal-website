@@ -40,8 +40,8 @@ const openLabel = (title: string) =>
 								class="shop-products__photo"
 								src={product.image}
 								alt=""
-								width={640}
-								height={800}
+								width={1024}
+								height={576}
 								loading="lazy"
 								data-photo-palette-source
 							/>
@@ -49,8 +49,11 @@ const openLabel = (title: string) =>
 							<span class="shop-products__media" aria-hidden="true" />
 						)}
 					</button>
-					<h2 class="shop-products__title">{product.title}</h2>
-					<p class="shop-products__price">{product.price}</p>
+					<div class="shop-products__meta">
+						<p class="shop-products__price">{product.price}</p>
+						<h2 class="shop-products__title">{product.title}</h2>
+						<p class="shop-products__spec">{product.spec}</p>
+					</div>
 				</li>
 			))
 		}

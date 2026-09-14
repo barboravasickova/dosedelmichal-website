@@ -1,11 +1,11 @@
 ---
+import ContactContent from '../../components/ContactContent.astro';
 import PageLayout from '../../layouts/PageLayout.astro';
-import { pageTitle, uiStrings } from '../../lib/i18n';
-import { contactEmail, social } from '../../lib/site';
+import { pageTitle } from '../../lib/i18n';
 
 const locale = 'en';
 const currentPath = '/en/contact';
-const ui = uiStrings(locale);
+const sent = Astro.url.searchParams.get('sent') === '1';
 ---
 
 <PageLayout
@@ -14,18 +14,5 @@ const ui = uiStrings(locale);
 	title={pageTitle(locale, 'Contact')}
 	description="Contact — Michal Doseděl."
 >
-	<div class="contact-page">
-		<p class="contact-page__heading">{ui.footerContactHeading}</p>
-		<p class="contact-page__location">{ui.location}</p>
-		<a class="contact-page__email" href={`mailto:${contactEmail}`}>{contactEmail}</a>
-		<p class="contact-page__follow">{ui.footerFollow}</p>
-		<ul class="contact-page__social">
-			<li>
-				<a href={social.instagram} rel="noopener noreferrer" target="_blank">Instagram</a>
-			</li>
-			<li>
-				<a href={social.facebook} rel="noopener noreferrer" target="_blank">Facebook</a>
-			</li>
-		</ul>
-	</div>
+	<ContactContent locale={locale} sent={sent} />
 </PageLayout>

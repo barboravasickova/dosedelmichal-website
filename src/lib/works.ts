@@ -12,28 +12,53 @@ export type WorksRow = {
 	photos: WorkPhoto[];
 };
 
-/** Pořadí řádků: 2 nebo 3 fotky, každý řádek přes celou šířku kontejneru */
-const rowLayouts: [number, number][][] = [
-	[[3, 2], [4, 5]],
-	[[1, 1], [16, 10], [3, 4]],
-	[[5, 4], [7, 5]],
-	[[4, 3], [3, 2]],
-	[[2, 3], [5, 4], [3, 2]],
-	[[16, 10], [1, 1]],
+/** Panoramatické záběry muralů (~1024×460); 08 je 4:3 */
+const wide: [number, number] = [256, 115];
+const standard: [number, number] = [4, 3];
+
+const worksRowImages: { image: string; ratio: [number, number] }[][] = [
+	[
+		{ image: '/images/works/01.jpg', ratio: wide },
+		{ image: '/images/works/02.jpg', ratio: wide },
+	],
+	[
+		{ image: '/images/works/03.jpg', ratio: wide },
+		{ image: '/images/works/04.jpg', ratio: wide },
+		{ image: '/images/works/05.jpg', ratio: wide },
+	],
+	[
+		{ image: '/images/works/06.jpg', ratio: wide },
+		{ image: '/images/works/07.jpg', ratio: wide },
+	],
+	[
+		{ image: '/images/works/08.jpg', ratio: standard },
+		{ image: '/images/works/09.jpg', ratio: wide },
+	],
+	[
+		{ image: '/images/works/10.jpg', ratio: wide },
+		{ image: '/images/works/11.jpg', ratio: wide },
+		{ image: '/images/works/12.jpg', ratio: wide },
+	],
+	[
+		{ image: '/images/works/13.jpg', ratio: wide },
+		{ image: '/images/works/14.jpg', ratio: wide },
+	],
 ];
 
-function workPhoto(locale: Locale, ratio: [number, number]): WorkPhoto {
-	const caption =
-		locale === 'cs' ? 'Město, Česká republika – 2026' : 'City, Czech Republic – 2026';
-
-	return {
-		caption,
-		ratio,
-	};
+function worksPhotoCaption(locale: Locale) {
+	return locale === 'cs'
+		? 'Graffiti Jam, Brno ČR 2026'
+		: 'Graffiti Jam, Brno, Czech Republic 2026';
 }
 
 export function worksGalleryRows(locale: Locale): WorksRow[] {
-	return rowLayouts.map((ratios) => ({
-		photos: ratios.map((ratio) => workPhoto(locale, ratio)),
+	const caption = worksPhotoCaption(locale);
+
+	return worksRowImages.map((photos) => ({
+		photos: photos.map(({ image, ratio }) => ({
+			image,
+			caption,
+			ratio,
+		})),
 	}));
 }

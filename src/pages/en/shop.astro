@@ -2,11 +2,11 @@
 import ShopContent from '../../components/ShopContent.astro';
 import PageLayout from '../../layouts/PageLayout.astro';
 import { pageTitle } from '../../lib/i18n';
-import { placeholderProducts } from '../../lib/placeholders';
+import { shopProducts } from '../../lib/shop';
 
 const locale = 'en';
 const currentPath = '/en/shop';
-const products = placeholderProducts(locale, 3);
+const products = shopProducts(locale);
 ---
 
 <PageLayout

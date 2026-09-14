@@ -54,7 +54,9 @@ const openLabel = (caption: string) =>
 									)
 								}
 							</div>
-							<figcaption class="works-gallery__caption">{photo.caption}</figcaption>
+							{photo.caption ? (
+								<figcaption class="works-gallery__caption">{photo.caption}</figcaption>
+							) : null}
 						</figure>
 					);
 				})}
