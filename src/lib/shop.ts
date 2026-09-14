@@ -13,26 +13,26 @@ const shopProductCopy: Record<
 > = {
 	cs: [
 		{
-			price: 'Cena na dotaz',
-			title: 'Obraz 01',
-			spec: 'Sprej na plátně - 90 x 50 cm',
+			title: 'Studie tvaru I',
+			price: '8 000 Kč',
+			spec: '2023 · 20 × 50 cm · akryl na plátně',
 		},
 		{
-			price: 'Cena na dotaz',
-			title: 'Obraz 02',
-			spec: 'Sprej na plátně - 90 x 50 cm',
+			title: 'Studie tvaru II',
+			price: '10 000 Kč',
+			spec: '2025 · 30 × 60 cm · akryl na plátně',
 		},
 	],
 	en: [
 		{
-			price: 'Price on request',
-			title: 'Painting 01',
-			spec: 'Spray paint on canvas - 90 x 50 cm',
+			title: 'Shape study I',
+			price: '8,000 CZK',
+			spec: '2023 · 20 × 50 cm · acrylic on canvas',
 		},
 		{
-			price: 'Price on request',
-			title: 'Painting 02',
-			spec: 'Spray paint on canvas - 90 x 50 cm',
+			title: 'Shape study II',
+			price: '10,000 CZK',
+			spec: '2025 · 30 × 60 cm · acrylic on canvas',
 		},
 	],
 };
