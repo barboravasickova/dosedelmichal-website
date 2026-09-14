@@ -10,15 +10,19 @@ interface Props {
 	title: string;
 	description: string;
 	currentPath: string;
+	inlineHeadScript?: string;
+	canonicalUrl?: string;
 }
 
-const { locale, title, description, currentPath } = Astro.props;
+const { locale, title, description, currentPath, inlineHeadScript, canonicalUrl } = Astro.props;
 ---
 
 <!doctype html>
 <html lang={locale}>
 	<head>
 		<meta charset="UTF-8" />
+		{inlineHeadScript && <script is:inline set:html={inlineHeadScript} />}
+		{canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<meta name="theme-color" content="#181818" />
 		<meta name="description" content={description} />
