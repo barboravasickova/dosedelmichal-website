@@ -1,5 +1,6 @@
 ---
-import { alternateLocalePath, homePath, navItems, type Locale } from '../lib/i18n';
+import { alternateLocaleUrl } from '../lib/domains';
+import { homePath, navItems, type Locale } from '../lib/i18n';
 
 interface Props {
 	locale: Locale;
@@ -10,8 +11,8 @@ interface Props {
 
 const { locale, currentPath, theme = 'light', width = 'contained' } = Astro.props;
 const items = navItems(locale);
-const csPath = alternateLocalePath(currentPath, 'cs');
-const enPath = alternateLocalePath(currentPath, 'en');
+const csPath = alternateLocaleUrl(currentPath, 'cs');
+const enPath = alternateLocaleUrl(currentPath, 'en');
 const logoSrc = theme === 'light' ? '/images/dose-logo-dark.svg' : '/images/dose-logo.svg';
 const menuLabel = locale === 'cs' ? 'Otevřít menu' : 'Open menu';
 const closeLabel = locale === 'cs' ? 'Zavřít menu' : 'Close menu';

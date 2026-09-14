@@ -1,5 +1,6 @@
 ---
 import { contactEmail } from '../lib/site';
+import { absolutePageUrl } from '../lib/domains';
 import { contactPath, contactStrings } from '../lib/contact';
 import type { Locale } from '../lib/i18n';
 
@@ -11,7 +12,7 @@ interface Props {
 const { locale, sent = false } = Astro.props;
 const copy = contactStrings(locale);
 const formAction = `https://formsubmit.co/${encodeURIComponent(contactEmail)}`;
-const formNext = new URL(`${contactPath(locale)}?sent=1`, Astro.site).href;
+const formNext = `${absolutePageUrl(locale, contactPath(locale))}?sent=1`;
 const { quick, inquiry } = copy;
 const contactImageSrc = '/images/kontakt-mural.png';
 ---

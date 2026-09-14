@@ -1,21 +1,26 @@
 ---
-/** GitHub Pages: okamžité přesměrování z kořene (Astro.redirect dává pomalý meta refresh). */
-const target = '/cs/';
+import { homeUrl, localeFromHostname, rootRedirectInlineScript } from '../lib/domains';
+
+const htmlLang = localeFromHostname('dosedelmichal.com');
 ---
 
 <!doctype html>
-<html lang="cs">
+<html lang={htmlLang}>
 	<head>
 		<meta charset="utf-8" />
+		<script is:inline set:html={rootRedirectInlineScript()} />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<meta http-equiv="refresh" content={`0;url=${target}`} />
-		<link rel="canonical" href={`https://dosedelmichal.com${target}`} />
+		<meta name="color-scheme" content="dark" />
+		<link rel="alternate" hreflang="cs" href={homeUrl('cs')} />
+		<link rel="alternate" hreflang="en" href={homeUrl('en')} />
 		<title>Michal Doseděl — DOSE</title>
-		<script is:inline define:vars={{ target }}>
-			location.replace(target);
-		</script>
+		<style>
+			html,
+			body {
+				margin: 0;
+				background: #181818;
+			}
+		</style>
 	</head>
-	<body>
-		<p><a href={target}>Pokračovat na web</a></p>
-	</body>
+	<body></body>
 </html>
