@@ -1,3 +1,21 @@
 ---
-return Astro.redirect('/cs/');
+/** GitHub Pages: okamžité přesměrování z kořene (Astro.redirect dává pomalý meta refresh). */
+const target = '/cs/';
 ---
+
+<!doctype html>
+<html lang="cs">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta http-equiv="refresh" content={`0;url=${target}`} />
+		<link rel="canonical" href={`https://dosedelmichal.com${target}`} />
+		<title>Michal Doseděl — DOSE</title>
+		<script is:inline define:vars={{ target }}>
+			location.replace(target);
+		</script>
+	</head>
+	<body>
+		<p><a href={target}>Pokračovat na web</a></p>
+	</body>
+</html>
