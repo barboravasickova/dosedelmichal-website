@@ -54,9 +54,12 @@ const footerNav = footerNavStacks(locale);
 	}
 	<p class="site-footer__copy">
 		<span class="site-footer__copy-line">{footerCopyrightLine(locale)}</span>
-		<span class="site-footer__copy-line">
-			IČO: {businessInfo.ico} | {footerTradeRegistryLine(locale)} |
-			<a class="site-footer__copy-link" href={privacyPath(locale)}>
+		<span class="site-footer__copy-line site-footer__copy-line--meta">
+			<span class="site-footer__copy-part">IČO: {businessInfo.ico}</span>
+			<span class="site-footer__copy-sep" aria-hidden="true">|</span>
+			<span class="site-footer__copy-part">{footerTradeRegistryLine(locale)}</span>
+			<span class="site-footer__copy-sep" aria-hidden="true">|</span>
+			<a class="site-footer__copy-link site-footer__copy-part" href={privacyPath(locale)}>
 				{footerPrivacyLinkLabel(locale)}
 			</a>
 		</span>

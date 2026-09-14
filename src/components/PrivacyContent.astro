@@ -19,6 +19,14 @@ const content = privacyPageContent(locale);
 				{section.paragraphs.map((paragraph) => (
 					<p>{paragraph}</p>
 				))}
+				{section.bullets && section.bullets.length > 0 && (
+					<ul class="legal-page__list">
+						{section.bullets.map((item) => (
+							<li>{item}</li>
+						))}
+					</ul>
+				)}
+				{section.paragraphsAfter?.map((paragraph) => <p>{paragraph}</p>)}
 			</section>
 		))
 	}
