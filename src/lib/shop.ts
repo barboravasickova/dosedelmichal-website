@@ -13,26 +13,26 @@ const shopProductCopy: Record<
 > = {
 	cs: [
 		{
-			title: 'Studie tvaru I',
+			title: 'Studie tvaru 2023',
 			price: '8 000 Kč',
-			spec: '2023 · 20 × 50 cm · akryl na plátně',
+			spec: '20 × 50 cm · akryl na plátně',
 		},
 		{
-			title: 'Studie tvaru II',
+			title: 'Studie tvaru 2025',
 			price: '10 000 Kč',
-			spec: '2025 · 30 × 60 cm · akryl na plátně',
+			spec: '30 × 60 cm · akryl na plátně',
 		},
 	],
 	en: [
 		{
-			title: 'Shape study I',
+			title: 'Shape study 2023',
 			price: '8,000 CZK',
-			spec: '2023 · 20 × 50 cm · acrylic on canvas',
+			spec: '20 × 50 cm · acrylic on canvas',
 		},
 		{
-			title: 'Shape study II',
+			title: 'Shape study 2025',
 			price: '10,000 CZK',
-			spec: '2025 · 30 × 60 cm · acrylic on canvas',
+			spec: '30 × 60 cm · acrylic on canvas',
 		},
 	],
 };
