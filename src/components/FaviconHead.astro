@@ -1,19 +1,37 @@
 ---
-/** Favicon variant matches page surface (not OS color scheme). */
-interface Props {
-	surface?: 'light' | 'dark';
-}
-
-const { surface = 'light' } = Astro.props;
-const variant = surface === 'dark' ? 'dark' : 'light';
+/**
+ * PNG favicons vs browser theme: dark Chrome → light asset (dark DOSE on paper),
+ * light Chrome → dark asset (light DOSE on ink). No SVG in head (Chrome cache).
+ */
 ---
 
-<link rel="icon" type="image/svg+xml" href={`/favicon-${variant}.svg`} />
-<link rel="icon" type="image/png" sizes="32x32" href={`/icons/favicon-32-${variant}.png`} />
-<link rel="icon" type="image/png" sizes="16x16" href={`/icons/favicon-16-${variant}.png`} />
 <link
-	rel="apple-touch-icon"
-	sizes="180x180"
-	href={variant === 'dark' ? '/icons/icon-192-dark.png' : '/icons/apple-touch-icon.png'}
+	rel="icon"
+	type="image/png"
+	sizes="32x32"
+	href="/icons/favicon-32-light.png"
+	media="(prefers-color-scheme: dark)"
 />
+<link
+	rel="icon"
+	type="image/png"
+	sizes="32x32"
+	href="/icons/favicon-32-dark.png"
+	media="(prefers-color-scheme: light)"
+/>
+<link
+	rel="icon"
+	type="image/png"
+	sizes="16x16"
+	href="/icons/favicon-16-light.png"
+	media="(prefers-color-scheme: dark)"
+/>
+<link
+	rel="icon"
+	type="image/png"
+	sizes="16x16"
+	href="/icons/favicon-16-dark.png"
+	media="(prefers-color-scheme: light)"
+/>
+<link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png" />
 <link rel="manifest" href="/site.webmanifest" />

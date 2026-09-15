@@ -15,7 +15,7 @@ fs.writeFileSync(path.join(root, 'public', 'favicon-dark.svg'), singleSvg(dark))
 
 /** Legacy default for /favicon.svg (system theme). */
 const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-<style>.a{display:block}.b{display:none}@media (prefers-color-scheme:dark){.a{display:none}.b{display:block}}</style>
+<style>.a{display:block}.b{display:none}@media (prefers-color-scheme:light){.a{display:none}.b{display:block}}</style>
 <image class="a" width="32" height="32" href="data:image/png;base64,${light}"/>
 <image class="b" width="32" height="32" href="data:image/png;base64,${dark}"/>
 </svg>
