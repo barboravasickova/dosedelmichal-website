@@ -45,8 +45,17 @@ function isActive(href: string) {
 			class="site-header__nav"
 			id="site-header-nav"
 			data-site-nav
+			data-nav-theme={theme}
 			aria-label={locale === 'cs' ? 'Hlavní menu' : 'Main menu'}
 		>
+			<button
+				type="button"
+				class="site-header__nav-close"
+				data-site-nav-close
+				aria-label={closeLabel}
+			>
+				<span class="site-header__nav-close-icon" aria-hidden="true"></span>
+			</button>
 			{
 				items.map(({ href, label }) => (
 					<a href={href} aria-current={isActive(href) ? 'page' : undefined}>
@@ -90,24 +99,80 @@ function isActive(href: string) {
 <script>
 	const header = document.querySelector<HTMLElement>('[data-site-header]');
 	const toggle = document.querySelector<HTMLButtonElement>('[data-site-nav-toggle]');
+	const navClose = document.querySelector<HTMLButtonElement>('[data-site-nav-close]');
 	const nav = document.querySelector<HTMLElement>('[data-site-nav]');
 
 	if (header && toggle && nav) {
 		const mq = matchMedia('(max-width: 900px)');
 
+		let scrollLockY = 0;
+		let navAnchor: Comment | null = null;
+
+		const navParent = nav.parentElement;
+
+		const mountNavOverlay = () => {
+			if (nav.parentElement === document.body || !navParent) return;
+			navAnchor = document.createComment('site-nav-anchor');
+			navParent.insertBefore(navAnchor, nav);
+			document.body.appendChild(nav);
+		};
+
+		const unmountNavOverlay = () => {
+			if (nav.parentElement !== document.body || !navParent) return;
+			if (navAnchor) {
+				navParent.insertBefore(nav, navAnchor);
+				navAnchor.remove();
+				navAnchor = null;
+			} else {
+				navParent.appendChild(nav);
+			}
+		};
+
+		const lockScroll = () => {
+			scrollLockY = window.scrollY;
+			document.body.style.position = 'fixed';
+			document.body.style.top = `-${scrollLockY}px`;
+			document.body.style.left = '0';
+			document.body.style.right = '0';
+			document.body.classList.add('is-nav-locked');
+		};
+
+		const unlockScroll = () => {
+			document.body.classList.remove('is-nav-locked');
+			document.body.style.position = '';
+			document.body.style.top = '';
+			document.body.style.left = '';
+			document.body.style.right = '';
+			window.scrollTo(0, scrollLockY);
+		};
+
 		const setOpen = (open: boolean) => {
+			const mobile = mq.matches;
+			const wasOpen = header.classList.contains('is-nav-open');
+
+			if (open && mobile && !wasOpen) {
+				mountNavOverlay();
+				lockScroll();
+			}
+			if (!open && mobile && wasOpen) {
+				unmountNavOverlay();
+				unlockScroll();
+			}
+
 			header.classList.toggle('is-nav-open', open);
+			nav.classList.toggle('is-nav-open', open);
 			toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
 			toggle.setAttribute(
 				'aria-label',
 				open ? (toggle.dataset.labelClose ?? 'Close menu') : (toggle.dataset.labelOpen ?? 'Open menu'),
 			);
-			document.body.classList.toggle('is-nav-locked', open && mq.matches);
 		};
 
 		toggle.addEventListener('click', () => {
 			setOpen(!header.classList.contains('is-nav-open'));
 		});
+
+		navClose?.addEventListener('click', () => setOpen(false));
 
 		nav.querySelectorAll('a').forEach((link) => {
 			link.addEventListener('click', () => setOpen(false));
@@ -118,7 +183,11 @@ function isActive(href: string) {
 		});
 
 		mq.addEventListener('change', () => {
-			if (!mq.matches) setOpen(false);
+			if (!mq.matches) {
+				unmountNavOverlay();
+				if (header.classList.contains('is-nav-open')) unlockScroll();
+				setOpen(false);
+			}
 		});
 
 		const scrollThreshold = 12;
