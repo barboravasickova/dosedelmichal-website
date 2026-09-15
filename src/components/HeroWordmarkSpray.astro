@@ -1,0 +1,178 @@
+---
+import wordmarkSvg from '../../public/images/hero-wordmark.svg?raw';
+
+const svgBase = wordmarkSvg.replace(
+	'<svg ',
+	'<svg class="hero__wordmark-svg hero__wordmark-svg--base" aria-hidden="true" ',
+);
+const svgReveal = wordmarkSvg.replace(
+	'<svg ',
+	'<svg class="hero__wordmark-svg hero__wordmark-svg--reveal" aria-hidden="true" ',
+);
+---
+
+<div
+	class="hero__wordmark"
+	data-wordmark-spray
+	role="img"
+	aria-label="Michal Dose Doseděl"
+	tabindex="0"
+>
+	<div class="hero__wordmark-stack" data-wordmark-stack>
+		<canvas class="hero__wordmark-canvas" data-spray-canvas aria-hidden="true"></canvas>
+		<canvas class="hero__wordmark-mask-canvas" data-mask-canvas aria-hidden="true"></canvas>
+		<div class="hero__wordmark-logo">
+			<div class="hero__wordmark-logo-ghost">
+				<Fragment set:html={svgBase} />
+			</div>
+			<div class="hero__wordmark-logo-reveal" data-wordmark-reveal>
+				<Fragment set:html={svgReveal} />
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+	function resizeCanvas(
+		stack: HTMLElement,
+		canvas: HTMLCanvasElement,
+		options?: { fillBlack?: boolean },
+	) {
+		const rect = stack.getBoundingClientRect();
+		if (rect.width < 1 || rect.height < 1) return;
+
+		const dpr = Math.min(window.devicePixelRatio || 1, 2);
+		const ctx = canvas.getContext('2d');
+		const prev = ctx && canvas.width > 0 ? ctx.getImageData(0, 0, canvas.width, canvas.height) : null;
+
+		canvas.width = Math.max(1, Math.floor(rect.width * dpr));
+		canvas.height = Math.max(1, Math.floor(rect.height * dpr));
+		canvas.style.width = `${rect.width}px`;
+		canvas.style.height = `${rect.height}px`;
+
+		if (!ctx) return;
+		ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+		if (prev) {
+			ctx.putImageData(prev, 0, 0);
+			return;
+		}
+
+		if (options?.fillBlack) {
+			ctx.fillStyle = '#000';
+			ctx.fillRect(0, 0, rect.width, rect.height);
+		}
+	}
+
+	/** Dark tone; low per-speck alpha so layers read deep but stay see-through. */
+	const SPRAY_RGB = '14, 14, 14';
+
+	function spraySpecks(
+		sprayCtx: CanvasRenderingContext2D,
+		maskCtx: CanvasRenderingContext2D,
+		x: number,
+		y: number,
+	) {
+		const specks = 26 + Math.floor(Math.random() * 16);
+		for (let i = 0; i < specks; i += 1) {
+			const angle = Math.random() * Math.PI * 2;
+			const dist = Math.random() ** 0.45 * 64;
+			const radius = 6 + Math.random() * 24;
+			const px = x + Math.cos(angle) * dist * 2.55;
+			const py = y + Math.sin(angle) * dist * 0.52;
+			const alpha = 0.1 + Math.random() * 0.14;
+			const rx = radius * 2.35;
+			const ry = radius * 0.58;
+
+			sprayCtx.fillStyle = `rgba(${SPRAY_RGB}, ${alpha})`;
+			sprayCtx.beginPath();
+			sprayCtx.ellipse(px, py, rx, ry, 0, 0, Math.PI * 2);
+			sprayCtx.fill();
+
+			maskCtx.fillStyle = `rgba(255, 255, 255, ${alpha})`;
+			maskCtx.beginPath();
+			maskCtx.ellipse(px, py, rx, ry, 0, 0, Math.PI * 2);
+			maskCtx.fill();
+		}
+	}
+
+	function initWordmark(root: HTMLElement) {
+		const stack = root.querySelector<HTMLElement>('[data-wordmark-stack]');
+		const sprayCanvas = root.querySelector<HTMLCanvasElement>('[data-spray-canvas]');
+		const maskCanvas = root.querySelector<HTMLCanvasElement>('[data-mask-canvas]');
+		const revealLayer = root.querySelector<HTMLElement>('[data-wordmark-reveal]');
+		if (!stack || !sprayCanvas || !maskCanvas || !revealLayer) return;
+
+		const sprayCtx = sprayCanvas.getContext('2d');
+		const maskCtx = maskCanvas.getContext('2d');
+		if (!sprayCtx || !maskCtx) return;
+
+		if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+		let maskSyncQueued = false;
+
+		const syncMaskToLogo = () => {
+			if (maskSyncQueued) return;
+			maskSyncQueued = true;
+			requestAnimationFrame(() => {
+				const url = maskCanvas.toDataURL('image/png');
+				revealLayer.style.maskImage = `url(${url})`;
+				revealLayer.style.webkitMaskImage = `url(${url})`;
+				maskSyncQueued = false;
+			});
+		};
+
+		const syncSize = () => {
+			resizeCanvas(stack, sprayCanvas);
+			resizeCanvas(stack, maskCanvas, { fillBlack: true });
+			syncMaskToLogo();
+		};
+
+		requestAnimationFrame(syncSize);
+
+		const resizeObserver = new ResizeObserver(() => syncSize());
+		resizeObserver.observe(stack);
+
+		const isInside = (clientX: number, clientY: number) => {
+			const rect = stack.getBoundingClientRect();
+			return (
+				clientX >= rect.left &&
+				clientX <= rect.right &&
+				clientY >= rect.top &&
+				clientY <= rect.bottom
+			);
+		};
+
+		const pointerSpray = (clientX: number, clientY: number) => {
+			const rect = stack.getBoundingClientRect();
+			const x = clientX - rect.left;
+			const y = clientY - rect.top;
+			spraySpecks(sprayCtx, maskCtx, x, y);
+			syncMaskToLogo();
+		};
+
+		root.addEventListener('pointerenter', (event) => {
+			if (!isInside(event.clientX, event.clientY)) return;
+			pointerSpray(event.clientX, event.clientY);
+		});
+
+		root.addEventListener('pointerdown', (event) => {
+			if (!isInside(event.clientX, event.clientY)) return;
+			root.setPointerCapture(event.pointerId);
+			pointerSpray(event.clientX, event.clientY);
+		});
+
+		root.addEventListener('pointermove', (event) => {
+			if (!isInside(event.clientX, event.clientY)) return;
+			pointerSpray(event.clientX, event.clientY);
+		});
+
+		root.addEventListener('pointerup', (event) => {
+			if (root.hasPointerCapture(event.pointerId)) {
+				root.releasePointerCapture(event.pointerId);
+			}
+		});
+	}
+
+	document.querySelectorAll<HTMLElement>('[data-wordmark-spray]').forEach(initWordmark);
+</script>

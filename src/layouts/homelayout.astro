@@ -1,7 +1,9 @@
 ---
 import BackToTop from '../components/BackToTop.astro';
 import PhotoColorSwatches from '../components/PhotoColorSwatches.astro';
+import FaviconHead from '../components/FaviconHead.astro';
 import SeoHead from '../components/SeoHead.astro';
+import HeroWordmarkSpray from '../components/HeroWordmarkSpray.astro';
 import SiteHeader from '../components/siteheader.astro';
 import type { Locale } from '../lib/i18n';
 import '../styles/global.css';
@@ -32,7 +34,7 @@ const { locale, title, description, currentPath, inlineHeadScript, canonicalUrl 
 			currentPath={currentPath}
 			canonicalUrl={canonicalUrl}
 		/>
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<FaviconHead />
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 		<link
@@ -57,9 +59,7 @@ const { locale, title, description, currentPath, inlineHeadScript, canonicalUrl 
 			<SiteHeader locale={locale} currentPath={currentPath} theme="dark" width="contained" />
 
 			<main class="hero__main">
-				<div class="hero__wordmark" role="img" aria-label="Michal Dose Doseděl">
-					<img src="/images/hero-wordmark.svg" width="435" height="485" alt="" decoding="async" />
-				</div>
+				<HeroWordmarkSpray />
 			</main>
 		</div>
 		<PhotoColorSwatches theme="dark" />

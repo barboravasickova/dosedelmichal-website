@@ -525,16 +525,106 @@ body.is-nav-locked {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	padding: 2rem var(--header-pad-x) 3rem;
+	padding: 1.5rem var(--header-pad-x) 3.25rem;
 }
 
 .hero__wordmark {
-	width: min(22rem, 78vw);
+	width: min(25.5rem, 86vw);
+	cursor: crosshair;
+	outline: none;
+	transform: translateY(clamp(-1.75rem, -4.5vh, -3rem));
 }
 
-.hero__wordmark img {
+.hero__wordmark:focus-visible {
+	outline: 2px solid rgb(249 248 242 / 0.45);
+	outline-offset: 8px;
+	border-radius: 2px;
+}
+
+.hero__wordmark-stack {
+	position: relative;
 	width: 100%;
+	aspect-ratio: 435 / 452;
+	isolation: isolate;
+}
+
+.hero__wordmark-canvas {
+	position: absolute;
+	inset: 0;
+	z-index: 0;
+	width: 100%;
+	height: 100%;
+	pointer-events: none;
+	opacity: 0.82;
+}
+
+.hero__wordmark-mask-canvas {
+	position: absolute;
+	inset: 0;
+	z-index: 0;
+	width: 100%;
+	height: 100%;
+	opacity: 0;
+	pointer-events: none;
+}
+
+.hero__wordmark-logo {
+	position: absolute;
+	inset: 0;
+	z-index: 1;
+	pointer-events: none;
+}
+
+.hero__wordmark-logo-ghost,
+.hero__wordmark-logo-reveal {
+	position: absolute;
+	inset: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	pointer-events: none;
+}
+
+.hero__wordmark-logo-reveal {
+	mask-size: 100% 100%;
+	mask-repeat: no-repeat;
+	mask-mode: luminance;
+	-webkit-mask-size: 100% 100%;
+	-webkit-mask-repeat: no-repeat;
+}
+
+.hero__wordmark-svg {
+	display: block;
+	width: 68%;
 	height: auto;
+	max-height: 100%;
+	pointer-events: none;
+}
+
+.hero__wordmark-svg--base .hero__wordmark-path {
+	opacity: 0.28;
+}
+
+.hero__wordmark-svg--reveal .hero__wordmark-path {
+	opacity: 1;
+}
+
+.hero__wordmark-path--dose {
+	fill: #ffffff;
+}
+
+.hero__wordmark-path--name {
+	fill: #c8c8c8;
+}
+
+.hero__wordmark-path--surname {
+	fill: #a7a7a7;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.hero__wordmark-canvas {
+		display: none;
+	}
 }
 
 .theme-light {

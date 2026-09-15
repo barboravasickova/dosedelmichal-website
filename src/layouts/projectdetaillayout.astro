@@ -2,6 +2,7 @@
 import BackToTop from '../components/BackToTop.astro';
 import PhotoColorSwatches from '../components/PhotoColorSwatches.astro';
 import SiteFooter from '../components/sitefooter.astro';
+import FaviconHead from '../components/FaviconHead.astro';
 import SeoHead from '../components/SeoHead.astro';
 import SiteHeader from '../components/siteheader.astro';
 import type { Locale } from '../lib/i18n';
@@ -31,7 +32,7 @@ const { locale, title, description, currentPath, ogImage } = Astro.props;
 			currentPath={currentPath}
 			ogImage={ogImage}
 		/>
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<FaviconHead />
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 		<link
