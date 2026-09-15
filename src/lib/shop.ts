@@ -1,6 +1,17 @@
 import type { Locale } from './i18n';
 import type { ProductCard } from './placeholders';
 
+export function shopListHero(locale: Locale) {
+	return { title: 'Shop' };
+}
+
+export function shopMetaDescription(locale: Locale) {
+	if (locale === 'cs') {
+		return 'Veškerá díla je možno objednat přes e-mail dosedelmichal@gmail.com';
+	}
+	return 'All works can be ordered via email at dosedelmichal@gmail.com';
+}
+
 export function shopOrderNotice(locale: Locale) {
 	return locale === 'cs'
 		? 'Veškerá díla je možno objednat přes e-mail'

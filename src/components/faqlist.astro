@@ -1,11 +1,16 @@
 ---
+import ListingHero from './ListingHero.astro';
+import type { Locale } from '../lib/i18n';
 import type { FaqBullet, FaqSection } from '../lib/faq';
+import { faqListHero } from '../lib/faq';
 
 interface Props {
 	sections: FaqSection[];
+	locale: Locale;
 }
 
-const { sections } = Astro.props;
+const { sections, locale } = Astro.props;
+const hero = faqListHero(locale);
 
 function normalizeBullet(entry: FaqBullet) {
 	if (typeof entry === 'string') {
@@ -14,6 +19,8 @@ function normalizeBullet(entry: FaqBullet) {
 	return { kind: 'labeled' as const, label: entry.label, text: entry.text };
 }
 ---
+
+<ListingHero title={hero.title} subtitle={hero.subtitle} />
 
 <div class="faq-page" data-faq-accordion>
 	{

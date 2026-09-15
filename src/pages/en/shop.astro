@@ -2,7 +2,7 @@
 import ShopContent from '../../components/ShopContent.astro';
 import PageLayout from '../../layouts/PageLayout.astro';
 import { pageTitle } from '../../lib/i18n';
-import { shopProducts } from '../../lib/shop';
+import { shopMetaDescription, shopProducts } from '../../lib/shop';
 
 const locale = 'en';
 const currentPath = '/en/shop';
@@ -13,7 +13,7 @@ const products = shopProducts(locale);
 	locale={locale}
 	currentPath={currentPath}
 	title={pageTitle(locale, 'Shop')}
-	description="Shop — Michal Doseděl."
+	description={shopMetaDescription(locale)}
 >
 	<ShopContent products={products} locale={locale} />
 </PageLayout>

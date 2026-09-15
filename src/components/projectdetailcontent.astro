@@ -44,7 +44,11 @@ const nextProject = getNextCommissionProject(locale, project.slug);
 			))}
 		</div>
 
-		<ProjectGallery images={project.gallery} heading={projectGalleryHeading(locale)} />
+		<ProjectGallery
+			locale={locale}
+			images={project.gallery}
+			heading={projectGalleryHeading(locale)}
+		/>
 	</div>
 
 	{

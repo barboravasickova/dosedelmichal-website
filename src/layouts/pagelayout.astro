@@ -2,6 +2,7 @@
 import BackToTop from '../components/BackToTop.astro';
 import PhotoColorSwatches from '../components/PhotoColorSwatches.astro';
 import SiteFooter from '../components/SiteFooter.astro';
+import SeoHead from '../components/SeoHead.astro';
 import SiteHeader from '../components/SiteHeader.astro';
 import type { Locale } from '../lib/i18n';
 import '../styles/global.css';
@@ -32,8 +33,12 @@ const {
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<meta name="theme-color" content="#181818" />
 		<meta name="theme-color" content="#F9F8F2" />
-		<meta name="description" content={description} />
-		<title>{title}</title>
+		<SeoHead
+			locale={locale}
+			title={title}
+			description={description}
+			currentPath={currentPath}
+		/>
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />

@@ -1,0 +1,14 @@
+---
+interface Props {
+	title: string;
+	subtitle?: string;
+}
+
+const { title, subtitle } = Astro.props;
+---
+
+<header class="listing-hero">
+	<h1 class="listing-hero__title">{title}</h1>
+	{subtitle ? <p class="listing-hero__lead">{subtitle}</p> : null}
+	<slot />
+</header>

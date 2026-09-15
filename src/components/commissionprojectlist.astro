@@ -1,7 +1,8 @@
 ---
+import ListingHero from './ListingHero.astro';
 import type { Locale } from '../lib/i18n';
 import type { CommissionProject } from '../lib/projects';
-import { commissionDetailPath } from '../lib/projects';
+import { commissionDetailPath, commissionListHero } from '../lib/projects';
 
 interface Props {
 	locale: Locale;
@@ -9,98 +10,34 @@ interface Props {
 }
 
 const { locale, projects } = Astro.props;
-
-/** Poměry stran v řádku — stejná logika jako volná tvorba */
-const layoutPlan: [number, number][][] = [
-	[
-		[16, 10],
-		[4, 5],
-	],
-	[
-		[3, 4],
-		[5, 4],
-	],
-	[
-		[1, 1],
-		[16, 10],
-		[3, 4],
-	],
-];
-
-type GalleryCell = {
-	project: CommissionProject;
-	ratio: [number, number];
-};
-
-function buildRows(list: CommissionProject[]): GalleryCell[][] {
-	const rows: GalleryCell[][] = [];
-	let index = 0;
-
-	for (const ratios of layoutPlan) {
-		if (index >= list.length) break;
-		const slice = list.slice(index, index + ratios.length);
-		if (slice.length === 0) break;
-		rows.push(
-			slice.map((project, i) => ({
-				project,
-				ratio: ratios[i] ?? ([4, 3] as [number, number]),
-			})),
-		);
-		index += ratios.length;
-	}
-
-	if (index < list.length) {
-		rows.push(
-			list.slice(index).map((project) => ({
-				project,
-				ratio: [4, 3] as [number, number],
-			})),
-		);
-	}
-
-	return rows;
-}
-
-const rows = buildRows(projects);
+const hero = commissionListHero(locale);
 ---
 
-<div class="project-stack">
+<ListingHero title={hero.title} subtitle={hero.subtitle} />
+
+<div class="project-stack project-stack--commissions">
 	{
-		rows.map((row) => (
-			<div
-				class:list={[
-					'project-stack__row',
-					row.length === 2 && 'project-stack__row--duo',
-					row.length === 3 && 'project-stack__row--trio',
-				]}
+		projects.map((project) => (
+			<a
+				class="project-stack__link"
+				href={commissionDetailPath(locale, project.slug)}
 			>
-				{row.map(({ project, ratio }) => {
-					const [ratioW, ratioH] = ratio;
-					return (
-						<a
-							class="project-stack__link"
-							href={commissionDetailPath(locale, project.slug)}
-							style={`--ratio-w: ${ratioW}; --ratio-h: ${ratioH}; --photo-ratio: ${ratioW} / ${ratioH}`}
-						>
-							<div class="project-stack__media" aria-hidden="true">
-								<img
-									src={project.heroImage}
-									alt=""
-									loading="lazy"
-									width={ratioW * 400}
-									height={ratioH * 400}
-									data-photo-palette-source
-								/>
-								<span class="project-stack__overlay"></span>
-							</div>
-							<div class="project-stack__caption">
-								<h2 class="project-stack__title">{project.title}</h2>
-								<p class="project-stack__meta">{project.meta}</p>
-							</div>
-						</a>
-					);
-				})}
-			</div>
+				<div class="project-stack__media" aria-hidden="true">
+					<img
+						src={project.heroImage}
+						alt=""
+						loading="lazy"
+						width="800"
+						height="600"
+						data-photo-palette-source
+					/>
+					<span class="project-stack__overlay"></span>
+				</div>
+				<div class="project-stack__caption">
+					<h2 class="project-stack__title">{project.title}</h2>
+					<p class="project-stack__meta">{project.meta}</p>
+				</div>
+			</a>
 		))
 	}
 </div>

@@ -1,19 +1,20 @@
 ---
-import CommissionProjectList from '../../components/CommissionProjectList.astro';
+import CommissionProjectList from '../../components/commissionprojectlist.astro';
 import PageLayout from '../../layouts/PageLayout.astro';
 import { pageTitle } from '../../lib/i18n';
-import { commissionProjects } from '../../lib/projects';
+import { commissionListHero, commissionProjects } from '../../lib/projects';
 
 const locale = 'en';
 const currentPath = '/en/commissions';
 const projects = commissionProjects(locale);
+const { subtitle: description } = commissionListHero(locale);
 ---
 
 <PageLayout
 	locale={locale}
 	currentPath={currentPath}
 	title={pageTitle(locale, 'Commissions')}
-	description="Commissions — Michal Doseděl."
+	description={description}
 >
 	<CommissionProjectList locale={locale} projects={projects} />
 </PageLayout>

@@ -1,21 +1,85 @@
 ---
+import type { Locale } from '../lib/i18n';
+
 interface Props {
 	images: string[];
 	heading: string;
+	locale: Locale;
 }
 
-const { images, heading } = Astro.props;
+const { images, heading, locale } = Astro.props;
+const closeLabel = locale === 'cs' ? 'Zavřít náhled' : 'Close preview';
+const openLabel =
+	locale === 'cs' ? 'Zobrazit fotku v plné velikosti' : 'View photo at full size';
 ---
 
-<section class="project-detail__gallery" aria-labelledby="project-gallery-heading">
+<section
+	class="project-detail__gallery"
+	aria-labelledby="project-gallery-heading"
+	data-project-lightbox-root
+>
 	<h2 id="project-gallery-heading" class="project-detail__gallery-heading">{heading}</h2>
 	<ul class="project-gallery">
 		{
-			images.map((src) => (
+			images.map((src, index) => (
 				<li class="project-gallery__item">
-					<img src={src} alt="" loading="lazy" width="1140" height="713" data-photo-palette-source />
+					<button
+						type="button"
+						class="project-gallery__open"
+						data-project-lightbox-open
+						data-image={src}
+						aria-label={`${openLabel} (${index + 1}/${images.length})`}
+						aria-haspopup="dialog"
+					>
+						<img src={src} alt="" loading="lazy" width="1140" height="713" data-photo-palette-source />
+					</button>
 				</li>
 			))
 		}
 	</ul>
+
+	<dialog class="shop-lightbox" data-project-lightbox aria-label={closeLabel}>
+		<button type="button" class="shop-lightbox__close" data-project-lightbox-close>
+			{locale === 'cs' ? 'Zavřít' : 'Close'}
+		</button>
+		<figure class="shop-lightbox__figure">
+			<img class="shop-lightbox__image" data-project-lightbox-image alt="" />
+		</figure>
+	</dialog>
 </section>
+
+<script>
+	function initProjectLightbox(root: HTMLElement) {
+		const dialog = root.querySelector<HTMLDialogElement>('[data-project-lightbox]');
+		const imageEl = root.querySelector<HTMLImageElement>('[data-project-lightbox-image]');
+		if (!dialog || !imageEl) return;
+
+		const open = (src: string) => {
+			imageEl.src = src;
+			imageEl.hidden = false;
+			imageEl.alt = '';
+			dialog.showModal();
+		};
+
+		root.querySelectorAll<HTMLButtonElement>('[data-project-lightbox-open]').forEach((btn) => {
+			btn.addEventListener('click', () => {
+				const src = btn.dataset.image ?? '';
+				if (!src) return;
+				open(src);
+			});
+		});
+
+		root.querySelectorAll<HTMLButtonElement>('[data-project-lightbox-close]').forEach((btn) => {
+			btn.addEventListener('click', () => dialog.close());
+		});
+
+		dialog.addEventListener('click', (event) => {
+			const target = event.target;
+			if (!(target instanceof Element)) return;
+			if (target.closest('.shop-lightbox__image')) return;
+			dialog.close();
+		});
+	}
+
+	document.querySelectorAll<HTMLElement>('[data-project-lightbox-root]').forEach(initProjectLightbox);
+</script>

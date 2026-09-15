@@ -1,6 +1,7 @@
 ---
 import HomeLayout from '../../layouts/HomeLayout.astro';
 import { pageTitle } from '../../lib/i18n';
+import { homeMetaDescription } from '../../lib/seo';
 
 const locale = 'cs';
 const currentPath = '/cs/';
@@ -10,5 +11,5 @@ const currentPath = '/cs/';
 	locale={locale}
 	currentPath={currentPath}
 	title={pageTitle(locale)}
-	description="DOSE — Michal Doseděl. Portfolio malíře a graffiti umělce."
+	description={homeMetaDescription(locale)}
 />

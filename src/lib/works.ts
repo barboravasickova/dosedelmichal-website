@@ -51,6 +51,19 @@ function worksPhotoCaption(locale: Locale) {
 		: 'Graffiti Jam, Brno, Czech Republic 2026';
 }
 
+export function worksListHero(locale: Locale) {
+	if (locale === 'cs') {
+		return {
+			title: 'Volná tvorba',
+			subtitle: 'Autorské malby, osobní koncepty a objevování nových vizuálních forem.',
+		};
+	}
+	return {
+		title: 'Works',
+		subtitle: 'Authorial paintings, personal concepts, and exploring new visual forms.',
+	};
+}
+
 export function worksGalleryRows(locale: Locale): WorksRow[] {
 	const caption = worksPhotoCaption(locale);
 

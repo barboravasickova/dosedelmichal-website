@@ -214,6 +214,20 @@ const faq: Record<Locale, FaqSection[]> = {
 	en: faqEn,
 };
 
+export function faqListHero(locale: Locale) {
+	if (locale === 'cs') {
+		return {
+			title: 'FAQ',
+			subtitle: 'Odpovědi na nejčastější dotazy k zakázkové malbě a autorské tvorbě.',
+		};
+	}
+	return {
+		title: 'FAQ',
+		subtitle:
+			'Answers to the most common questions about commission painting and authorial work.',
+	};
+}
+
 export function faqSections(locale: Locale) {
 	return faq[locale];
 }

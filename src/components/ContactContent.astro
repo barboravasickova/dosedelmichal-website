@@ -1,4 +1,5 @@
 ---
+import ListingHero from './ListingHero.astro';
 import { contactEmail, businessInfo } from '../lib/site';
 import { absolutePageUrl } from '../lib/domains';
 import { contactPath, contactStrings } from '../lib/contact';
@@ -27,14 +28,15 @@ const contactImageSrc = '/images/kontakt-mural.png';
 		)
 	}
 
+	<ListingHero title={quick.heading}>
+		<p class="listing-hero__lead">
+			{quick.body}{' '}
+			<a href={`mailto:${contactEmail}`}>{contactEmail}</a>
+		</p>
+	</ListingHero>
+
 	<div class="contact-page__layout">
 		<div class="contact-page__main">
-			<section class="contact-block" aria-labelledby="contact-quick-heading">
-				<h1 id="contact-quick-heading" class="contact-block__heading">{quick.heading}</h1>
-				<p class="contact-block__body">{quick.body}</p>
-				<a class="contact-block__email" href={`mailto:${contactEmail}`}>{contactEmail}</a>
-			</section>
-
 			<section class="contact-block contact-block--form" aria-labelledby="contact-inquiry-heading">
 				<h2 id="contact-inquiry-heading" class="contact-block__heading">{inquiry.heading}</h2>
 				<p class="contact-block__body">{inquiry.body}</p>
@@ -112,7 +114,7 @@ const contactImageSrc = '/images/kontakt-mural.png';
 							<dt class="contact-billing__sr-only">{copy.billing.icoSrLabel}</dt>
 							<dd>IČO: {businessInfo.ico}</dd>
 						</div>
-						<div class="contact-billing__row">
+						<div class="contact-billing__row contact-billing__row--status">
 							<dt class="contact-billing__sr-only">{copy.billing.legalStatus}</dt>
 							<dd>{copy.billing.legalStatus}</dd>
 						</div>

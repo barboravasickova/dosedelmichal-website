@@ -1,6 +1,7 @@
 ---
 import ContactContent from '../../components/ContactContent.astro';
 import PageLayout from '../../layouts/PageLayout.astro';
+import { contactMetaDescription } from '../../lib/contact';
 import { pageTitle } from '../../lib/i18n';
 
 const locale = 'cs';
@@ -12,7 +13,7 @@ const sent = Astro.url.searchParams.get('sent') === '1';
 	locale={locale}
 	currentPath={currentPath}
 	title={pageTitle(locale, 'Kontakt')}
-	description="Kontakt — Michal Doseděl."
+	description={contactMetaDescription(locale)}
 >
 	<ContactContent locale={locale} sent={sent} />
 </PageLayout>

@@ -120,5 +120,18 @@ function isActive(href: string) {
 		mq.addEventListener('change', () => {
 			if (!mq.matches) setOpen(false);
 		});
+
+		const scrollThreshold = 12;
+		const updateScrolled = () => {
+			if (!mq.matches) {
+				header.classList.remove('is-scrolled');
+				return;
+			}
+			header.classList.toggle('is-scrolled', window.scrollY > scrollThreshold);
+		};
+
+		window.addEventListener('scroll', updateScrolled, { passive: true });
+		mq.addEventListener('change', updateScrolled);
+		updateScrolled();
 	}
 </script>

@@ -154,3 +154,18 @@ export function nextProjectLabel(locale: Locale) {
 export function projectGalleryHeading(locale: Locale) {
 	return locale === 'cs' ? 'Galerie' : 'Gallery';
 }
+
+export function commissionListHero(locale: Locale) {
+	if (locale === 'cs') {
+		return {
+			title: 'Zakázková malba',
+			subtitle:
+				'Autorské realizace velkoplošných maleb, fasád a projektů ve veřejném prostoru.',
+		};
+	}
+	return {
+		title: 'Commissions',
+		subtitle:
+			'Authorial large-scale paintings, facades, and projects in public space.',
+	};
+}

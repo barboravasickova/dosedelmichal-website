@@ -33,16 +33,10 @@ const label = locale === 'cs' ? 'Zpět nahoru' : 'Back to top';
 </button>
 
 <script>
-	const DESKTOP_MQ = window.matchMedia('(min-width: 901px)');
-
 	function initBackToTop(button: HTMLButtonElement) {
 		const showAfter = 320;
 
 		const update = () => {
-			if (!DESKTOP_MQ.matches) {
-				button.classList.remove('back-to-top--visible');
-				return;
-			}
 			button.classList.toggle('back-to-top--visible', window.scrollY > showAfter);
 		};
 
@@ -52,7 +46,6 @@ const label = locale === 'cs' ? 'Zpět nahoru' : 'Back to top';
 		});
 
 		window.addEventListener('scroll', update, { passive: true });
-		DESKTOP_MQ.addEventListener('change', update);
 		update();
 	}
 

@@ -1,0 +1,50 @@
+---
+import { absolutePageUrl, alternateLocaleUrl } from '../lib/domains';
+import type { Locale } from '../lib/i18n';
+
+interface Props {
+	locale: Locale;
+	title: string;
+	description: string;
+	currentPath: string;
+	canonicalUrl?: string;
+	ogImage?: string;
+}
+
+const { locale, title, description, currentPath, canonicalUrl, ogImage } = Astro.props;
+
+const canonical = canonicalUrl ?? absolutePageUrl(locale, currentPath);
+const hreflangCs = alternateLocaleUrl(currentPath, 'cs');
+const hreflangEn = alternateLocaleUrl(currentPath, 'en');
+const ogLocale = locale === 'cs' ? 'cs_CZ' : 'en_US';
+const ogLocaleAlt = locale === 'cs' ? 'en_US' : 'cs_CZ';
+
+function resolveOgImage(src: string | undefined) {
+	if (!src) return undefined;
+	if (src.startsWith('http://') || src.startsWith('https://')) return src;
+	return absolutePageUrl(locale, src.startsWith('/') ? src : `/${src}`);
+}
+
+const ogImageUrl = resolveOgImage(ogImage);
+---
+
+<title>{title}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonical} />
+<link rel="alternate" hreflang="cs" href={hreflangCs} />
+<link rel="alternate" hreflang="en" href={hreflangEn} />
+<link rel="alternate" hreflang="x-default" href={hreflangEn} />
+
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="DOSE — Michal Doseděl" />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonical} />
+<meta property="og:locale" content={ogLocale} />
+<meta property="og:locale:alternate" content={ogLocaleAlt} />
+{ogImageUrl && <meta property="og:image" content={ogImageUrl} />}
+
+<meta name="twitter:card" content={ogImageUrl ? 'summary_large_image' : 'summary'} />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+{ogImageUrl && <meta name="twitter:image" content={ogImageUrl} />}

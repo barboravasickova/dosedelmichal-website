@@ -1,19 +1,20 @@
 ---
-import WorksGallery from '../../components/WorksGallery.astro';
+import WorksGallery from '../../components/worksgallery.astro';
 import PageLayout from '../../layouts/PageLayout.astro';
 import { pageTitle } from '../../lib/i18n';
-import { worksGalleryRows } from '../../lib/works';
+import { worksGalleryRows, worksListHero } from '../../lib/works';
 
 const locale = 'cs';
 const currentPath = '/cs/volna-tvorba';
 const rows = worksGalleryRows(locale);
+const { subtitle: description } = worksListHero(locale);
 ---
 
 <PageLayout
 	locale={locale}
 	currentPath={currentPath}
 	title={pageTitle(locale, 'Volná tvorba')}
-	description="Volná tvorba — Michal Doseděl."
+	description={description}
 >
 	<WorksGallery rows={rows} locale={locale} />
 </PageLayout>

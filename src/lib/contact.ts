@@ -44,6 +44,14 @@ export function contactPath(locale: Locale) {
 	return contactPaths[locale];
 }
 
+export function contactMetaDescription(locale: Locale) {
+	const copy = contactStrings(locale);
+	if (locale === 'cs') {
+		return `${copy.quick.body} dosedelmichal@gmail.com`;
+	}
+	return `${copy.quick.body} at dosedelmichal@gmail.com`;
+}
+
 export function contactStrings(locale: Locale): ContactCopy {
 	if (locale === 'cs') {
 		return {
@@ -77,7 +85,7 @@ export function contactStrings(locale: Locale): ContactCopy {
 				nameLabel: 'Jméno a příjmení',
 				addressSrLabel: 'Adresa',
 				icoSrLabel: 'IČO',
-				legalStatus: 'Fyzická osoba zapsaná v živnostenském rejstříku, neplátce DPH',
+				legalStatus: 'Fyzická osoba zapsaná v živnostenském rejstříku, neplátce DPH.',
 			},
 		};
 	}
@@ -113,7 +121,7 @@ export function contactStrings(locale: Locale): ContactCopy {
 			nameLabel: 'Full name',
 			addressSrLabel: 'Address',
 			icoSrLabel: 'Business ID',
-			legalStatus: 'Sole proprietor registered in the Trade Register, non-VAT payer',
+			legalStatus: 'Sole proprietor registered in the Trade Register, non-VAT payer.',
 		},
 	};
 }

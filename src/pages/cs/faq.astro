@@ -1,19 +1,19 @@
 ---
-import FaqList from '../../components/FaqList.astro';
+import FaqList from '../../components/faqlist.astro';
 import PageLayout from '../../layouts/PageLayout.astro';
-import { faqSections } from '../../lib/faq';
+import { faqListHero, faqSections } from '../../lib/faq';
 import { pageTitle } from '../../lib/i18n';
 
 const locale = 'cs';
 const currentPath = '/cs/faq';
+const { subtitle: description } = faqListHero(locale);
 ---
 
 <PageLayout
 	locale={locale}
 	currentPath={currentPath}
 	title={pageTitle(locale, 'FAQ')}
-	description="Často kladené otázky — Michal Doseděl."
-	heading="FAQ"
+	description={description}
 >
-	<FaqList sections={faqSections(locale)} />
+	<FaqList locale={locale} sections={faqSections(locale)} />
 </PageLayout>

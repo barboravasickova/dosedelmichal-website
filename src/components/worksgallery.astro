@@ -1,6 +1,8 @@
 ---
+import ListingHero from './ListingHero.astro';
 import type { Locale } from '../lib/i18n';
 import type { WorksRow } from '../lib/works';
+import { worksListHero } from '../lib/works';
 
 interface Props {
 	rows: WorksRow[];
@@ -8,10 +10,13 @@ interface Props {
 }
 
 const { rows, locale } = Astro.props;
+const hero = worksListHero(locale);
 const closeLabel = locale === 'cs' ? 'Zavřít náhled' : 'Close preview';
 const openLabel = (caption: string) =>
 	locale === 'cs' ? `Zobrazit fotku: ${caption}` : `View photo: ${caption}`;
 ---
+
+<ListingHero title={hero.title} subtitle={hero.subtitle} />
 
 <div class="works-gallery" data-works-lightbox-root>
 	{

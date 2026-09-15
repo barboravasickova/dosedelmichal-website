@@ -1,6 +1,7 @@
 ---
+import ListingHero from './ListingHero.astro';
 import { contactEmail } from '../lib/site';
-import { shopOrderNotice } from '../lib/shop';
+import { shopListHero, shopOrderNotice } from '../lib/shop';
 import type { ProductCard } from '../lib/placeholders';
 import type { Locale } from '../lib/i18n';
 
@@ -10,6 +11,7 @@ interface Props {
 }
 
 const { products, locale } = Astro.props;
+const hero = shopListHero(locale);
 const notice = shopOrderNotice(locale);
 const closeLabel = locale === 'cs' ? 'Zavřít náhled' : 'Close preview';
 const openLabel = (title: string) =>
@@ -17,10 +19,12 @@ const openLabel = (title: string) =>
 ---
 
 <section class="shop-page" data-shop-lightbox-root>
-	<p class="shop-page__notice">
-		{notice}{' '}
-		<a href={`mailto:${contactEmail}`}>{contactEmail}</a>
-	</p>
+	<ListingHero title={hero.title}>
+		<p class="listing-hero__lead">
+			{notice}{' '}
+			<a href={`mailto:${contactEmail}`}>{contactEmail}</a>
+		</p>
+	</ListingHero>
 
 	<ul class="shop-products">
 		{
