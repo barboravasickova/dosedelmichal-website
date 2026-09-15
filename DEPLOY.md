@@ -1,6 +1,19 @@
 # Nasazení (GitHub Pages)
 
-Po pushi na `main` workflow **Deploy to GitHub Pages** sestaví `dist/` a nasadí ho přes **GitHub Actions** (Pages artifact).
+Po pushi na `main` workflow **Deploy to GitHub Pages** sestaví `dist/` a nahraje ho do větve **`gh-pages`**.
+
+## Důležité: nepřepínej zdroj Pages
+
+V repozitáři je **jeden** způsob nasazení: workflow zapisuje do větve **`gh-pages`**.
+
+| Nastavení v Settings → Pages | Musí být |
+|------------------------------|----------|
+| **Source** | **Deploy from a branch** |
+| **Branch** | **`gh-pages`** / **/ (root)** |
+
+**Nepoužívej** „GitHub Actions“ jako Source — to je **jiný** typ deploye. Když se Source a workflow neshodují, web se buď neaktualizuje, nebo zůstane stará verze. Není potřeba nic přepínat po každém pushi; stačí nastavit **gh-pages** jednou a nechat.
+
+Po deployi v **Actions** zkontroluj, že workflow doběhl zeleně. V repu na větvi `gh-pages` by měl být čerstvý commit (např. dnes).
 
 ## Domény a jazyky
 
@@ -14,9 +27,9 @@ Přepínač **CZ | EN** v menu vede na druhou doménu se stejnou stránkou.
 ## GitHub Pages (jednou)
 
 1. **Settings** → **Pages**
-2. **Build and deployment → Source:** **GitHub Actions** (ne „Deploy from a branch“)
+2. **Source:** **Deploy from a branch** → **`gh-pages`** / **`/ (root)`**
 3. **Custom domains:** **`dosedelmichal.com`** (Save, ověření, **Enforce HTTPS**)
-4. Po pushi na `main` nebo po **Run workflow** v **Actions** zkontroluj, že job **Deploy to GitHub Pages** doběhl zeleně
+4. **Actions** → **Deploy to GitHub Pages** → při potřebě **Run workflow**
 
 ## DNS (Webglobe)
 
