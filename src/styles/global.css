@@ -530,7 +530,9 @@ body.is-nav-locked {
 
 .hero__wordmark {
 	width: min(25.5rem, 86vw);
-	cursor: crosshair;
+	cursor:
+		url('/icons/cursor-spray.svg') 26 17,
+		crosshair;
 	outline: none;
 	transform: translateY(clamp(-1.75rem, -4.5vh, -3rem));
 }
@@ -622,6 +624,10 @@ body.is-nav-locked {
 }
 
 @media (prefers-reduced-motion: reduce) {
+	.hero__wordmark {
+		cursor: default;
+	}
+
 	.hero__wordmark-canvas {
 		display: none;
 	}
@@ -1581,8 +1587,6 @@ body.is-nav-locked {
 
 .contact-page__figure {
 	margin: 0;
-	position: sticky;
-	top: clamp(1rem, 3vw, 2rem);
 }
 
 .contact-page__photo {
@@ -1591,7 +1595,6 @@ body.is-nav-locked {
 	height: auto;
 	object-fit: cover;
 	object-position: center top;
-	opacity: 0.82;
 }
 
 .contact-page__success {
@@ -1841,7 +1844,6 @@ body.is-nav-locked {
 	}
 
 	.contact-page__figure {
-		position: static;
 		max-width: min(100%, 19rem);
 		margin-inline: auto;
 		margin-top: clamp(0.5rem, 2vw, 1.25rem);
@@ -1875,7 +1877,6 @@ body.is-nav-locked {
 	aspect-ratio: 1;
 	object-fit: cover;
 	object-position: center 15%;
-	filter: grayscale(100%);
 }
 
 .about-page__title {
