@@ -529,10 +529,8 @@ body.is-nav-locked {
 }
 
 .hero__wordmark {
-	width: min(25.5rem, 86vw);
-	cursor:
-		url('/icons/cursor-spray.svg') 26 17,
-		crosshair;
+	width: min(22.5rem, 80vw);
+	cursor: crosshair;
 	outline: none;
 	transform: translateY(clamp(-1.75rem, -4.5vh, -3rem));
 }
@@ -546,7 +544,7 @@ body.is-nav-locked {
 .hero__wordmark-stack {
 	position: relative;
 	width: 100%;
-	aspect-ratio: 435 / 452;
+	aspect-ratio: 435 / 418;
 	isolation: isolate;
 }
 
@@ -557,7 +555,12 @@ body.is-nav-locked {
 	width: 100%;
 	height: 100%;
 	pointer-events: none;
-	opacity: 0.82;
+	opacity: var(--hero-spray-opacity-rest, 0.48);
+	transition: opacity 0.4s ease;
+}
+
+.hero__wordmark.is-spraying .hero__wordmark-canvas {
+	opacity: var(--hero-spray-opacity-active, 0.82);
 }
 
 .hero__wordmark-mask-canvas {
@@ -597,7 +600,7 @@ body.is-nav-locked {
 
 .hero__wordmark-svg {
 	display: block;
-	width: 68%;
+	width: 73%;
 	height: auto;
 	max-height: 100%;
 	pointer-events: none;
@@ -624,12 +627,9 @@ body.is-nav-locked {
 }
 
 @media (prefers-reduced-motion: reduce) {
-	.hero__wordmark {
-		cursor: default;
-	}
-
 	.hero__wordmark-canvas {
 		display: none;
+		transition: none;
 	}
 }
 

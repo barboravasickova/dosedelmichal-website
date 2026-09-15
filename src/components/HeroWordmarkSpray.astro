@@ -110,6 +110,24 @@ const svgReveal = wordmarkSvg.replace(
 		if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
 		let maskSyncQueued = false;
+		let pointerDown = false;
+		let restOpacityTimer: ReturnType<typeof setTimeout> | undefined;
+
+		const setSprayingVisual = (active: boolean) => {
+			root.classList.toggle('is-spraying', active);
+		};
+
+		const holdSprayVisual = () => {
+			if (restOpacityTimer) clearTimeout(restOpacityTimer);
+			setSprayingVisual(true);
+		};
+
+		const releaseSprayVisual = () => {
+			if (restOpacityTimer) clearTimeout(restOpacityTimer);
+			restOpacityTimer = setTimeout(() => {
+				if (!pointerDown) setSprayingVisual(false);
+			}, 60);
+		};
 
 		const syncMaskToLogo = () => {
 			if (maskSyncQueued) return;
@@ -147,6 +165,7 @@ const svgReveal = wordmarkSvg.replace(
 			const rect = stack.getBoundingClientRect();
 			const x = clientX - rect.left;
 			const y = clientY - rect.top;
+			holdSprayVisual();
 			spraySpecks(sprayCtx, maskCtx, x, y);
 			syncMaskToLogo();
 		};
@@ -158,6 +177,7 @@ const svgReveal = wordmarkSvg.replace(
 
 		root.addEventListener('pointerdown', (event) => {
 			if (!isInside(event.clientX, event.clientY)) return;
+			pointerDown = true;
 			root.setPointerCapture(event.pointerId);
 			pointerSpray(event.clientX, event.clientY);
 		});
@@ -168,9 +188,16 @@ const svgReveal = wordmarkSvg.replace(
 		});
 
 		root.addEventListener('pointerup', (event) => {
+			pointerDown = false;
+			releaseSprayVisual();
 			if (root.hasPointerCapture(event.pointerId)) {
 				root.releasePointerCapture(event.pointerId);
 			}
+		});
+
+		root.addEventListener('pointerleave', () => {
+			pointerDown = false;
+			releaseSprayVisual();
 		});
 	}
 
