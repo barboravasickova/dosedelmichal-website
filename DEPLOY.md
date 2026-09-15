@@ -1,6 +1,6 @@
 # Nasazení (GitHub Pages)
 
-Po pushi na `main` workflow **Deploy to GitHub Pages** nahraje build z `dist/` do větve **`gh-pages`**.
+Po pushi na `main` workflow **Deploy to GitHub Pages** sestaví `dist/` a nasadí ho přes **GitHub Actions** (Pages artifact).
 
 ## Domény a jazyky
 
@@ -14,8 +14,9 @@ Přepínač **CZ | EN** v menu vede na druhou doménu se stejnou stránkou.
 ## GitHub Pages (jednou)
 
 1. **Settings** → **Pages**
-2. **Source:** **Deploy from a branch** → **`gh-pages`** / **`/ (root)`**
-3. **Custom domains:** přidej **`dosedelmichal.com`** i **`dosedelmichal.cz`** (Save, ověření, **Enforce HTTPS** u obou)
+2. **Build and deployment → Source:** **GitHub Actions** (ne „Deploy from a branch“)
+3. **Custom domains:** **`dosedelmichal.com`** (Save, ověření, **Enforce HTTPS**)
+4. Po pushi na `main` nebo po **Run workflow** v **Actions** zkontroluj, že job **Deploy to GitHub Pages** doběhl zeleně
 
 ## DNS (Webglobe)
 
