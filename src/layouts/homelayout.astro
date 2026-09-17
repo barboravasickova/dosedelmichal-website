@@ -3,7 +3,7 @@ import BackToTop from '../components/BackToTop.astro';
 import PhotoColorSwatches from '../components/PhotoColorSwatches.astro';
 import FaviconHead from '../components/FaviconHead.astro';
 import SeoHead from '../components/SeoHead.astro';
-import HeroWordmarkSpray from '../components/HeroWordmarkSpray.astro';
+import HeroWordmark from '../components/HeroWordmark.astro';
 import SiteHeader from '../components/siteheader.astro';
 import type { Locale } from '../lib/i18n';
 import '../styles/global.css';
@@ -59,7 +59,7 @@ const { locale, title, description, currentPath, inlineHeadScript, canonicalUrl 
 			<SiteHeader locale={locale} currentPath={currentPath} theme="dark" width="contained" />
 
 			<main class="hero__main">
-				<HeroWordmarkSpray />
+				<HeroWordmark />
 			</main>
 		</div>
 		<PhotoColorSwatches theme="dark" />

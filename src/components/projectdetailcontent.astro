@@ -19,15 +19,24 @@ const nextProject = getNextCommissionProject(locale, project.slug);
 
 <article class="project-detail__article">
 	<header class="project-detail__hero">
-		<div class="project-detail__hero-media">
-			<img
-				src={project.heroImage}
-				alt=""
-				width="1920"
-				height="1200"
-				fetchpriority="high"
-				data-photo-palette-source
-			/>
+		<div
+			class:list={[
+				'project-detail__hero-media',
+				!project.heroImage && 'project-detail__hero-media--placeholder',
+			]}
+		>
+			{
+				project.heroImage && (
+					<img
+						src={project.heroImage}
+						alt=""
+						width="1920"
+						height="1200"
+						fetchpriority="high"
+						data-photo-palette-source
+					/>
+				)
+			}
 		</div>
 		<div class="project-detail__hero-overlay" aria-hidden="true"></div>
 		<div class="layout-rail project-detail__hero-caption">
@@ -37,18 +46,21 @@ const nextProject = getNextCommissionProject(locale, project.slug);
 	</header>
 
 	<div class="layout-rail project-detail__body">
-		<h2 class="project-detail__subtitle">{project.subtitle}</h2>
 		<div class="project-detail__prose">
 			{project.body.map((paragraph) => (
 				<p>{paragraph}</p>
 			))}
 		</div>
 
-		<ProjectGallery
-			locale={locale}
-			images={project.gallery}
-			heading={projectGalleryHeading(locale)}
-		/>
+		{
+			project.gallery.length > 0 && (
+				<ProjectGallery
+					locale={locale}
+					images={project.gallery}
+					heading={projectGalleryHeading(locale)}
+				/>
+			)
+		}
 	</div>
 
 	{

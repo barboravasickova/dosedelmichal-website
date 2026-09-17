@@ -10,7 +10,7 @@ export function homeMetaDescription(locale: Locale) {
 
 export function projectMetaDescription(project: CommissionProject) {
 	const excerpt = project.body[0]?.replace(/\s+/g, ' ').trim();
-	if (!excerpt) return `${project.subtitle} — ${project.meta}`;
-	const combined = `${project.subtitle}. ${excerpt}`;
+	if (!excerpt) return project.meta;
+	const combined = `${project.meta}. ${excerpt}`;
 	return combined.length > 160 ? `${combined.slice(0, 157)}…` : combined;
 }

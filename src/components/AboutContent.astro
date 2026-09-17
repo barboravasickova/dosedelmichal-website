@@ -19,6 +19,38 @@ const content = aboutContent(locale);
 					<p>{paragraph}</p>
 				))}
 			</div>
+			{
+				content.exhibitions.length > 0 && (
+					<section class="about-page__exhibitions" aria-labelledby="about-exhibitions-heading">
+						<h3 id="about-exhibitions-heading" class="about-page__exhibitions-heading">
+							{content.exhibitionsHeading}
+						</h3>
+						<ul class="about-page__exhibitions-list">
+							{content.exhibitions.map((entry) => (
+								<li>
+									{entry.year} —{' '}
+									{
+										entry.href ? (
+											<a
+												class="about-page__exhibitions-link"
+												href={entry.href}
+												target="_blank"
+												rel="noopener noreferrer"
+												aria-label={entry.linkAriaLabel ?? entry.title}
+											>
+												<strong class="about-page__exhibitions-title">{entry.title}</strong>
+											</a>
+										) : (
+											<strong class="about-page__exhibitions-title">{entry.title}</strong>
+										)
+									}
+									, {entry.detail}
+								</li>
+							))}
+						</ul>
+					</section>
+				)
+			}
 		</div>
 		<figure class="about-page__figure">
 			<img

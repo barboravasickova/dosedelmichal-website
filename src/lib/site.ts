@@ -1,4 +1,4 @@
-export const contactEmail = 'dosedelmichal@gmail.com';
+export const contactEmail = 'mail@dosedelmichal.cz';
 
 export const businessInfo = {
 	fullName: 'Michal Doseděl',

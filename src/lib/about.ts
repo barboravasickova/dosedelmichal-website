@@ -1,8 +1,18 @@
 import type { Locale } from './i18n';
 
+export type AboutExhibition = {
+	year: string;
+	title: string;
+	detail: string;
+	href?: string;
+	linkAriaLabel?: string;
+};
+
 export type AboutContent = {
 	title: string;
 	paragraphs: string[];
+	exhibitionsHeading: string;
+	exhibitions: AboutExhibition[];
 	portraitAlt: string;
 };
 
@@ -19,6 +29,16 @@ const aboutCs: AboutContent = {
 		'Každou realizaci stavím v dialogu s konkrétním místem. Zajímá mě jeho atmosféra, měřítko i kontext a hledám způsob, jak je přetavit do osobitého vizuálního zážitku. Baví mě spolupracovat s architekty, městy, firmami i soukromými investory a proměňovat jejich prostory výrazným autorským gestem.',
 		'Od prvního skicování až po poslední vrstvu barvy propojuji řemeslnou preciznost s kreativní svobodou. Výsledkem má být dílo, které obstojí samo o sobě, ale zároveň přirozeně komunikuje s architekturou, prostorem i lidmi, kteří se s ním každý den setkávají.',
 	],
+	exhibitionsHeading: 'Výstavy',
+	exhibitions: [
+		{
+			year: '2026',
+			title: 'Za zdí',
+			detail: 'kolektivní výstava, Studio G21, Olomouc',
+			href: 'https://chaoscompany.art/blog/9zidp82okqoaiprndfczenkok9d4kz',
+			linkAriaLabel: 'Za zdí — článek na blogu Chaos company',
+		},
+	],
 };
 
 const aboutEn: AboutContent = {
@@ -29,6 +49,16 @@ const aboutEn: AboutContent = {
 		'My work grows out of classic graffiti, which I push toward contemporary deconstruction of the sign. I break traditional structure down into layers, rhythm, geometry, and optical glitch. On walls I look for tension between order and chance, precise construction and fragile detail. I combine sharp lines and architectural elements with organic shapes and fragments of human faces. Geometry stands for system and solid order; organic motifs bring it vitality, emotion, and a measure of unrest.',
 		'Every project is a dialogue with a specific place. I care about its atmosphere, scale, and context, and I look for ways to turn them into a distinctive visual experience. I enjoy collaborating with architects, cities, companies, and private investors to transform their spaces with a strong authorial gesture.',
 		'From the first sketch to the final layer of paint, I connect craft precision with creative freedom. The result should be a work that holds on its own while naturally speaking to the architecture, the space, and the people who encounter it every day.',
+	],
+	exhibitionsHeading: 'Exhibitions',
+	exhibitions: [
+		{
+			year: '2026',
+			title: 'Za zdí',
+			detail: 'group exhibition, Studio G21, Olomouc',
+			href: 'https://chaoscompany.art/blog/9zidp82okqoaiprndfczenkok9d4kz',
+			linkAriaLabel: 'Za zdí — blog post on Chaos company',
+		},
 	],
 };
 

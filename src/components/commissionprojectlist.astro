@@ -22,15 +22,25 @@ const hero = commissionListHero(locale);
 				class="project-stack__link"
 				href={commissionDetailPath(locale, project.slug)}
 			>
-				<div class="project-stack__media" aria-hidden="true">
-					<img
-						src={project.heroImage}
-						alt=""
-						loading="lazy"
-						width="800"
-						height="600"
-						data-photo-palette-source
-					/>
+				<div
+					class:list={[
+						'project-stack__media',
+						!project.heroImage && 'project-stack__media--placeholder',
+					]}
+					aria-hidden="true"
+				>
+					{
+						project.heroImage && (
+							<img
+								src={project.heroImage}
+								alt=""
+								loading="lazy"
+								width="800"
+								height="600"
+								data-photo-palette-source
+							/>
+						)
+					}
 					<span class="project-stack__overlay"></span>
 				</div>
 				<div class="project-stack__caption">

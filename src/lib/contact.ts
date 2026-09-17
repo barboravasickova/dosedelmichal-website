@@ -1,4 +1,5 @@
 import type { Locale } from './i18n';
+import { contactEmail } from './site';
 
 export type ContactCopy = {
 	quick: {
@@ -47,9 +48,9 @@ export function contactPath(locale: Locale) {
 export function contactMetaDescription(locale: Locale) {
 	const copy = contactStrings(locale);
 	if (locale === 'cs') {
-		return `${copy.quick.body} dosedelmichal@gmail.com`;
+		return `${copy.quick.body} ${contactEmail}`;
 	}
-	return `${copy.quick.body} at dosedelmichal@gmail.com`;
+	return `${copy.quick.body} at ${contactEmail}`;
 }
 
 export function contactStrings(locale: Locale): ContactCopy {
