@@ -1,6 +1,6 @@
 ---
 import ListingHero from './ListingHero.astro';
-import { contactEmail, businessInfo } from '../lib/site';
+import { contactEmail, businessInfo, contactFormRecaptchaSiteKey } from '../lib/site';
 import { absolutePageUrl } from '../lib/domains';
 import { contactPath, contactStrings } from '../lib/contact';
 import { privacyPath } from '../lib/privacy';
@@ -13,21 +13,16 @@ interface Props {
 
 const { locale, sent = false } = Astro.props;
 const copy = contactStrings(locale);
-const formAction = `https://formsubmit.co/${encodeURIComponent(contactEmail)}`;
+const formActionFallback = `https://formsubmit.co/${encodeURIComponent(contactEmail)}`;
+const formActionAjax = `https://formsubmit.co/ajax/${encodeURIComponent(contactEmail)}`;
 const formNext = `${absolutePageUrl(locale, contactPath(locale))}?sent=1`;
 const { quick, inquiry } = copy;
 const contactImageSrc = '/images/kontakt-mural.png';
+const showSuccess = sent;
+const recaptchaSiteKey = contactFormRecaptchaSiteKey.trim();
 ---
 
 <div class="contact-page">
-	{
-		sent && (
-			<p class="contact-page__success" role="status">
-				{copy.sentMessage}
-			</p>
-		)
-	}
-
 	<ListingHero title={quick.heading}>
 		<p class="listing-hero__lead">
 			{quick.body}{' '}
@@ -41,63 +36,94 @@ const contactImageSrc = '/images/kontakt-mural.png';
 				<h2 id="contact-inquiry-heading" class="contact-block__heading">{inquiry.heading}</h2>
 				<p class="contact-block__body">{inquiry.body}</p>
 
-				<form
-					class="contact-form"
-					action={formAction}
-					method="post"
-					enctype="multipart/form-data"
+				<div
+					class="contact-form-done"
+					data-contact-success
+					hidden={!showSuccess}
+					role="status"
+					tabindex="-1"
 				>
-					<input type="hidden" name="_subject" value={copy.formSubject} />
-					<input type="hidden" name="_next" value={formNext} />
-					<input type="hidden" name="_template" value="table" />
-					<input type="text" name="_honey" class="contact-form__honey" tabindex="-1" autocomplete="off" />
+					<p class="contact-form-done__title">{copy.sentMessage}</p>
+					<p class="contact-form-done__body">{copy.sentMessageDetail}</p>
+				</div>
 
-					<div class="contact-form__field">
-						<label for="contact-name">{inquiry.fields.name}</label>
-						<input id="contact-name" name="name" type="text" required autocomplete="name" />
-					</div>
+				<div data-contact-form-wrap hidden={showSuccess}>
+					<p class="contact-form__feedback" data-contact-error hidden role="alert"></p>
 
-					<div class="contact-form__field">
-						<label for="contact-email">{inquiry.fields.email}</label>
-						<input
-							id="contact-email"
-							name="email"
-							type="email"
-							required
-							autocomplete="email"
-							inputmode="email"
-						/>
-					</div>
+					<form
+						class="contact-form"
+						data-contact-form
+						action={formActionFallback}
+						method="post"
+						enctype="multipart/form-data"
+					>
+						<input type="hidden" name="_subject" value={copy.formSubject} />
+						<input type="hidden" name="_next" value={formNext} />
+						<input type="hidden" name="_template" value="table" />
+						{
+							recaptchaSiteKey ? (
+								<input type="hidden" name="_recaptcha" value="true" />
+							) : null
+						}
+						<input type="text" name="_honey" class="contact-form__honey" tabindex="-1" autocomplete="off" />
 
-					<div class="contact-form__field">
-						<label for="contact-location">{inquiry.fields.location}</label>
-						<input
-							id="contact-location"
-							name="location"
-							type="text"
-							required
-							placeholder={inquiry.fields.locationPlaceholder}
-						/>
-					</div>
+						<div class="contact-form__field">
+							<label for="contact-name">{inquiry.fields.name}</label>
+							<input id="contact-name" name="name" type="text" required autocomplete="name" />
+						</div>
 
-					<div class="contact-form__field">
-						<label for="contact-description">{inquiry.fields.description}</label>
-						<textarea id="contact-description" name="description" rows={6} required></textarea>
-					</div>
+						<div class="contact-form__field">
+							<label for="contact-email">{inquiry.fields.email}</label>
+							<input
+								id="contact-email"
+								name="email"
+								type="email"
+								required
+								autocomplete="email"
+								inputmode="email"
+							/>
+						</div>
 
-					<div class="contact-form__field">
-						<label for="contact-attachment">{inquiry.fields.attachment}</label>
-						<p class="contact-form__hint">{inquiry.fields.attachmentHint}</p>
-						<input id="contact-attachment" name="attachment" type="file" accept="image/*,.pdf" />
-					</div>
+						<div class="contact-form__field">
+							<label for="contact-location">{inquiry.fields.location}</label>
+							<input
+								id="contact-location"
+								name="location"
+								type="text"
+								required
+								placeholder={inquiry.fields.locationPlaceholder}
+							/>
+						</div>
 
-					<button class="contact-form__submit" type="submit">{inquiry.submit}</button>
-				</form>
+						<div class="contact-form__field">
+							<label for="contact-description">{inquiry.fields.description}</label>
+							<textarea id="contact-description" name="description" rows={6} required></textarea>
+						</div>
 
-				<p class="contact-form__privacy">
-					{copy.formPrivacy.lead}{' '}
-					<a href={privacyPath(locale)}>{copy.formPrivacy.linkLabel}</a>.
-				</p>
+						<div class="contact-form__field">
+							<label for="contact-attachment">{inquiry.fields.attachment}</label>
+							<p class="contact-form__hint">{inquiry.fields.attachmentHint}</p>
+							<input id="contact-attachment" name="attachment" type="file" accept="image/*,.pdf" />
+						</div>
+
+						{
+							recaptchaSiteKey ? (
+								<div class="contact-form__captcha" data-contact-captcha>
+									<div class="g-recaptcha" data-sitekey={recaptchaSiteKey} />
+								</div>
+							) : null
+						}
+
+						<button class="contact-form__submit" type="submit" data-contact-submit>
+							{inquiry.submit}
+						</button>
+					</form>
+
+					<p class="contact-form__privacy">
+						{copy.formPrivacy.lead}{' '}
+						<a href={privacyPath(locale)}>{copy.formPrivacy.linkLabel}</a>.
+					</p>
+				</div>
 
 				<div class="contact-billing">
 					<h3 class="contact-billing__heading">{copy.billing.heading}</h3>
@@ -137,3 +163,113 @@ const contactImageSrc = '/images/kontakt-mural.png';
 		</figure>
 	</div>
 </div>
+
+{
+	recaptchaSiteKey ? (
+		<script src="https://www.google.com/recaptcha/api.js" async defer />
+	) : null
+}
+
+<script
+	define:vars={{
+		formActionAjax,
+		formError: copy.formError,
+		formSubmitting: copy.formSubmitting,
+		captchaRequired: copy.captchaRequired,
+		recaptchaSiteKey,
+	}}
+>
+	function showContactSuccess(root) {
+		const formWrap = root.querySelector('[data-contact-form-wrap]');
+		const success = root.querySelector('[data-contact-success]');
+		const errorEl = root.querySelector('[data-contact-error]');
+		if (formWrap) formWrap.hidden = true;
+		if (errorEl) errorEl.hidden = true;
+		if (success) {
+			success.hidden = false;
+			success.focus({ preventScroll: true });
+		}
+		const url = new URL(window.location.href);
+		url.searchParams.set('sent', '1');
+		window.history.replaceState({}, '', url);
+	}
+
+	function bindContactForm(section) {
+		const form = section.querySelector('[data-contact-form]');
+		const submitBtn = section.querySelector('[data-contact-submit]');
+		const errorEl = section.querySelector('[data-contact-error]');
+		if (!(form instanceof HTMLFormElement) || !(submitBtn instanceof HTMLButtonElement)) return;
+
+		const defaultLabel = submitBtn.textContent ?? '';
+
+		form.addEventListener('submit', async (event) => {
+			event.preventDefault();
+			if (errorEl) {
+				errorEl.hidden = true;
+				errorEl.textContent = '';
+			}
+
+			if (recaptchaSiteKey && typeof grecaptcha !== 'undefined') {
+				const response = grecaptcha.getResponse();
+				if (!response) {
+					if (errorEl) {
+						errorEl.textContent = captchaRequired;
+						errorEl.hidden = false;
+					}
+					return;
+				}
+			}
+
+			submitBtn.disabled = true;
+			submitBtn.textContent = formSubmitting;
+
+			try {
+				const body = new FormData(form);
+				const response = await fetch(formActionAjax, {
+					method: 'POST',
+					body,
+					headers: { Accept: 'application/json' },
+				});
+
+				let data = null;
+				try {
+					data = await response.json();
+				} catch {
+					data = null;
+				}
+
+				const ok =
+					response.ok &&
+					(data?.success === true ||
+						data?.success === 'true' ||
+						(typeof data?.message === 'string' && /thank/i.test(data.message)));
+
+				if (ok) {
+					showContactSuccess(section.closest('.contact-block') ?? section);
+					return;
+				}
+
+				if (errorEl) {
+					errorEl.textContent = formError;
+					errorEl.hidden = false;
+				}
+			} catch {
+				if (errorEl) {
+					errorEl.textContent = formError;
+					errorEl.hidden = false;
+				}
+			} finally {
+				submitBtn.disabled = false;
+				submitBtn.textContent = defaultLabel;
+				if (recaptchaSiteKey && typeof grecaptcha !== 'undefined') {
+					grecaptcha.reset();
+				}
+			}
+		});
+	}
+
+	document.querySelectorAll('[data-contact-form]').forEach((form) => {
+		const section = form.closest('.contact-block');
+		if (section) bindContactForm(section);
+	});
+</script>

@@ -1542,13 +1542,47 @@ body.is-nav-locked {
 	object-position: center top;
 }
 
-.contact-page__success {
-	padding: 0.85rem 1rem;
-	background: var(--surface-muted);
+.contact-form-done {
+	margin-top: 0.35rem;
+	padding: clamp(1.25rem, 3vw, 1.75rem);
 	border: 1px solid rgb(24 24 24 / 0.08);
+	border-radius: 0.25rem;
+	background: rgb(24 24 24 / 0.04);
+	max-width: 40em;
+}
+
+.contact-form-done:focus {
+	outline: none;
+}
+
+.contact-form-done__title {
+	margin: 0;
+	font-size: clamp(1.0625rem, 1.35vw + 0.75rem, 1.25rem);
+	font-weight: 600;
+	line-height: 1.45;
+	color: var(--ink);
+}
+
+.contact-form-done__body {
+	margin: 0.65rem 0 0;
+	font-size: var(--body-size);
+	line-height: var(--body-leading);
+	color: var(--text-soft);
+}
+
+.contact-form__feedback {
+	margin: 0.35rem 0 0;
+	padding: 0.75rem 1rem;
+	border: 1px solid rgb(160 40 40 / 0.35);
+	border-radius: 0.25rem;
+	background: rgb(160 40 40 / 0.06);
 	font-size: var(--body-size);
 	line-height: var(--body-leading);
 	color: var(--ink);
+}
+
+.contact-form__captcha {
+	min-height: 78px;
 }
 
 .contact-block {

@@ -21,6 +21,10 @@ export type ContactCopy = {
 		submit: string;
 	};
 	sentMessage: string;
+	sentMessageDetail: string;
+	formError: string;
+	formSubmitting: string;
+	captchaRequired: string;
 	formSubject: string;
 	imageAlt: string;
 	formPrivacy: {
@@ -74,7 +78,12 @@ export function contactStrings(locale: Locale): ContactCopy {
 				},
 				submit: 'Odeslat poptávku',
 			},
-			sentMessage: 'Děkuji — poptávka byla odeslána. Ozvu se co nejdříve.',
+			sentMessage: 'Poptávka byla odeslána',
+			sentMessageDetail:
+				'Děkuji — zprávu mám v poště. Ozvu se co nejdříve, jakmile ji projdu.',
+			formError: 'Odeslání se nepovedlo. Zkuste to znovu, nebo napište přímo na e-mail.',
+			formSubmitting: 'Odesílám…',
+			captchaRequired: 'Nejdřív prosím potvrďte, že nejste robot.',
 			formSubject: 'Poptávka projektu — dosedelmichal.com',
 			imageAlt: 'Realizace muralu — detail malby ve veřejném prostoru',
 			formPrivacy: {
@@ -110,7 +119,12 @@ export function contactStrings(locale: Locale): ContactCopy {
 			},
 			submit: 'Send inquiry',
 		},
-		sentMessage: 'Thank you — your inquiry was sent. I will reply as soon as I can.',
+		sentMessage: 'Your inquiry was sent',
+		sentMessageDetail:
+			'Thank you — your message is in my inbox. I will reply as soon as I can.',
+		formError: 'Something went wrong. Please try again or email me directly.',
+		formSubmitting: 'Sending…',
+		captchaRequired: 'Please confirm you are not a robot first.',
 		formSubject: 'Project inquiry — dosedelmichal.com',
 		imageAlt: 'Mural in progress — detail of a painting in public space',
 		formPrivacy: {
