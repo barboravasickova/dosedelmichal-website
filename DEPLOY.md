@@ -62,3 +62,16 @@ Stejné **A** záznamy pro `@` u **.com**:
 - https://dosedelmichal.cz/ → `/cs/`
 - https://dosedelmichal.com/ → `/en/`
 - Actions → workflow zelený
+
+## SEO (Google v ČR — „doseděl michal“)
+
+Web už posílá pro češtinu kanonické URL na **dosedelmichal.cz**, `hreflang="cs-CZ"`, **`x-default` → česká homepage** a JSON-LD typu **Person**. Sitemap obsahuje stejné jazykové alternativy.
+
+**Doporučené kroky mimo kód (Google Search Console):**
+
+1. Přidej **dvě nemovitosti**: `https://dosedelmichal.cz` a `https://dosedelmichal.com` (prefix URL).
+2. Odešli sitemapu: `https://dosedelmichal.cz/sitemap-index.xml` (a stejně pro .com).
+3. U hlavní české stránky (`https://dosedelmichal.cz/cs/`) použij **Kontrola URL → Požádat o indexaci**.
+4. **DNS u .cz:** ideálně stejné **A záznamy na GitHub Pages** jako u `.com` (viz výše), aby `.cz` **nepřesměrovávala** na `dosedelmichal.com/cs/`. Kanonické URL v HTML jsou `dosedelmichal.cz`; pokud `.cz` jen forwarduje na `.com`, Google může v SERPu častěji ukazovat `.com/cs/`. Forward nech jen jako dočasné řešení, ne jako cílový stav pro SEO.
+
+Pořadí ve vyhledávání nejde „zapnout“ na 100 % — záleží na indexaci, odkazech a konkurenci; výše uvedené sladí signály pro českou verzi.

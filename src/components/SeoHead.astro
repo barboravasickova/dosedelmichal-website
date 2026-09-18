@@ -1,5 +1,5 @@
 ---
-import { absolutePageUrl, alternateLocaleUrl } from '../lib/domains';
+import { absolutePageUrl, alternateLocaleUrl, homeUrl } from '../lib/domains';
 import type { Locale } from '../lib/i18n';
 
 interface Props {
@@ -19,6 +19,24 @@ const hreflangEn = alternateLocaleUrl(currentPath, 'en');
 const ogLocale = locale === 'cs' ? 'cs_CZ' : 'en_US';
 const ogLocaleAlt = locale === 'cs' ? 'en_US' : 'cs_CZ';
 
+const personJsonLd = {
+	'@context': 'https://schema.org',
+	'@type': 'Person',
+	name: 'Michal Doseděl',
+	alternateName: ['DOSE', 'Michal Dose Doseděl'],
+	url: homeUrl(locale),
+	jobTitle: locale === 'cs' ? 'Malíř, muralista a street artist' : 'Painter, muralist and street artist',
+	knowsAbout:
+		locale === 'cs'
+			? ['street art', 'murály', 'zakázková malba', 'velkoformátová malba']
+			: ['street art', 'murals', 'commission painting', 'large-scale painting'],
+	address: {
+		'@type': 'PostalAddress',
+		addressLocality: 'Brno',
+		addressCountry: 'CZ',
+	},
+};
+
 function resolveOgImage(src: string | undefined) {
 	if (!src) return undefined;
 	if (src.startsWith('http://') || src.startsWith('https://')) return src;
@@ -31,9 +49,11 @@ const ogImageUrl = resolveOgImage(ogImage);
 <title>{title}</title>
 <meta name="description" content={description} />
 <link rel="canonical" href={canonical} />
-<link rel="alternate" hreflang="cs" href={hreflangCs} />
+<link rel="alternate" hreflang="cs-CZ" href={hreflangCs} />
 <link rel="alternate" hreflang="en" href={hreflangEn} />
-<link rel="alternate" hreflang="x-default" href={hreflangEn} />
+<link rel="alternate" hreflang="x-default" href={hreflangCs} />
+<link rel="sitemap" type="application/xml" href="/sitemap-index.xml" />
+<script type="application/ld+json" set:html={JSON.stringify(personJsonLd)} />
 
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="DOSE — Michal Doseděl" />

@@ -114,7 +114,8 @@ export function footerPrivacyLinkLabel(locale: Locale) {
 }
 
 export function pageTitle(locale: Locale, section?: string) {
-	const base = 'DOSE — Michal Doseděl';
+	const base =
+		locale === 'cs' ? 'Michal Doseděl — DOSE' : 'DOSE — Michal Doseděl';
 	if (!section) return base;
 	return `${section} — ${base}`;
 }
