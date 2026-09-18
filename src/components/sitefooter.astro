@@ -3,12 +3,13 @@ import {
 	footerCopyrightLine,
 	footerNavStacks,
 	footerPrivacyLinkLabel,
+	footerSiteCreditPrefix,
 	footerTradeRegistryLine,
 	uiStrings,
 	type Locale,
 } from '../lib/i18n';
 import { privacyPath } from '../lib/privacy';
-import { businessInfo, contactEmail } from '../lib/site';
+import { businessInfo, contactEmail, siteCredit } from '../lib/site';
 
 interface Props {
 	locale: Locale;
@@ -53,7 +54,20 @@ const footerNav = footerNavStacks(locale);
 		)
 	}
 	<p class="site-footer__copy">
-		<span class="site-footer__copy-line">{footerCopyrightLine(locale)}</span>
+		<span class="site-footer__copy-line site-footer__copy-line--lead">
+			<span class="site-footer__copy-part">{footerCopyrightLine(locale)}</span>
+			<span class="site-footer__copy-credit">
+				{footerSiteCreditPrefix(locale)}
+				<a
+					class="site-footer__copy-link"
+					href={siteCredit.url}
+					target="_blank"
+					rel="noopener noreferrer"
+				>
+					{siteCredit.name}
+				</a>
+			</span>
+		</span>
 		<span class="site-footer__copy-line site-footer__copy-line--meta">
 			<span class="site-footer__copy-part">IČO: {businessInfo.ico}</span>
 			<span class="site-footer__copy-sep" aria-hidden="true">|</span>

@@ -14,3 +14,8 @@ export const social = {
 	instagram: 'https://instagram.com/',
 	facebook: 'https://facebook.com/',
 };
+
+export const siteCredit = {
+	name: 'Barbora Vašíčková',
+	url: 'https://www.barboravasickova.cz/',
+} as const;

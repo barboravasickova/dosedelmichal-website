@@ -113,6 +113,10 @@ export function footerPrivacyLinkLabel(locale: Locale) {
 	return locale === 'cs' ? 'Ochrana osobních údajů' : 'Personal data protection';
 }
 
+export function footerSiteCreditPrefix(locale: Locale) {
+	return locale === 'cs' ? 'Web vytvořila ' : 'Website by ';
+}
+
 export function pageTitle(locale: Locale, section?: string) {
 	const base =
 		locale === 'cs' ? 'Michal Doseděl — DOSE' : 'DOSE — Michal Doseděl';

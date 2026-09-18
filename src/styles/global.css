@@ -380,6 +380,19 @@ body.is-nav-locked {
 	margin-top: 0.35em;
 }
 
+.site-footer__copy-line--lead {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	align-items: baseline;
+	column-gap: clamp(2rem, 6vw, 4.5rem);
+	row-gap: 0.5em;
+}
+
+.site-footer__copy-credit {
+	white-space: nowrap;
+}
+
 .site-footer__copy-line--meta {
 	display: flex;
 	flex-wrap: wrap;
@@ -463,6 +476,10 @@ body.is-nav-locked {
 @media (min-width: 900px) {
 	.site-footer__copy {
 		text-align: left;
+	}
+
+	.site-footer__copy-line--lead {
+		justify-content: flex-start;
 	}
 
 	.site-footer__copy-line--meta {

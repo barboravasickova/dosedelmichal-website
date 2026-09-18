@@ -78,9 +78,9 @@ export function contactStrings(locale: Locale): ContactCopy {
 				},
 				submit: 'Odeslat poptávku',
 			},
-			sentMessage: 'Poptávka byla odeslána',
+			sentMessage: 'Poptávka byla úspěšně odeslána',
 			sentMessageDetail:
-				'Děkuji — zprávu mám v poště. Ozvu se co nejdříve, jakmile ji projdu.',
+				'Děkuji za váš zájem, poptávku jsem v pořádku přijal. Ozvu se vám zpět do 2 pracovních dnů s doplňujícími dotazy nebo rovnou s cenovou nabídkou.',
 			formError: 'Odeslání se nepovedlo. Zkuste to znovu, nebo napište přímo na e-mail.',
 			formSubmitting: 'Odesílám…',
 			captchaRequired: 'Nejdřív prosím potvrďte, že nejste robot.',
@@ -119,9 +119,9 @@ export function contactStrings(locale: Locale): ContactCopy {
 			},
 			submit: 'Send inquiry',
 		},
-		sentMessage: 'Your inquiry was sent',
+		sentMessage: 'Your inquiry was sent successfully',
 		sentMessageDetail:
-			'Thank you — your message is in my inbox. I will reply as soon as I can.',
+			'Thank you for your interest — I have received your inquiry. I will get back to you within 2 business days with follow-up questions or a quote.',
 		formError: 'Something went wrong. Please try again or email me directly.',
 		formSubmitting: 'Sending…',
 		captchaRequired: 'Please confirm you are not a robot first.',
