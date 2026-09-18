@@ -33,7 +33,7 @@ function normalizeBullet(entry: FaqBullet) {
 							<summary class="faq-item__question">{item.question}</summary>
 							<div class="faq-item__answer">
 								{item.paragraphs.map((paragraph) => (
-									<p>{paragraph}</p>
+									<p set:html={paragraph} />
 								))}
 								{item.bullets && item.bullets.length > 0 && (
 									<ul class="faq-item__list">
@@ -42,14 +42,14 @@ function normalizeBullet(entry: FaqBullet) {
 											return (
 												<li>
 													{bullet.kind === 'plain' ? (
-														bullet.text
+														<span set:html={bullet.text} />
 													) : (
 														<span class="faq-item__bullet">
 															<strong class="faq-item__bullet-label">
 																{bullet.label}
 															</strong>
 															{': '}
-															{bullet.text}
+															<span set:html={bullet.text} />
 														</span>
 													)}
 												</li>
@@ -58,7 +58,7 @@ function normalizeBullet(entry: FaqBullet) {
 									</ul>
 								)}
 								{item.afterParagraphs?.map((paragraph) => (
-									<p>{paragraph}</p>
+									<p set:html={paragraph} />
 								))}
 							</div>
 						</details>

@@ -2002,6 +2002,10 @@ body.is-nav-locked {
 	color: var(--text-soft);
 }
 
+.faq-item__list + p {
+	margin-top: 1.15rem;
+}
+
 .faq-item__list li + li {
 	margin-top: 0.35rem;
 }
